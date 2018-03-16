@@ -1,0 +1,1501 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>hyrest</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">hyrest</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> hyrest</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<h1 id="hyrest">Hyrest</h1>
+				<p><a href="https://www.npmjs.com/package/hyrest"><img src="https://img.shields.io/npm/v/hyrest.svg" alt="npm"></a>
+					<a href="https://travis-ci.org/Prior99/hyrest"><img src="https://travis-ci.org/Prior99/hyrest.svg?branch=master" alt="Build Status"></a>
+				<a href="https://coveralls.io/github/Prior99/hyrest?branch=master"><img src="https://coveralls.io/repos/github/Prior99/hyrest/badge.svg?branch=master" alt="Coverage Status"></a></p>
+				<p>Hyrest is a hybrid REST framework for both the client and the server.</p>
+				<p>The idea is to define routes using decorators and use them to both serve the REST endpoint
+					and call them from the frontend. When developing both server and client in the same repository
+					or sharing a common library with all endpoints between the both, a call to a REST endoint
+				is transparent, type-safe and as easy calling a method.</p>
+				<h2 id="table-of-contents">Table of contents</h2>
+				<ul>
+					<li><a href="#hyrest">Hyrest</a><ul>
+							<li><a href="#table-of-contents">Table of contents</a></li>
+							<li><a href="#routes-and-controllers">Routes and Controllers</a><ul>
+									<li><a href="#controller-configuration">Controller configuration</a><ul>
+											<li><a href="#controlleroptionsmode">ControllerOptions.mode</a></li>
+											<li><a href="#controlleroptionsthrowonerror">ControllerOptions.throwOnError</a></li>
+											<li><a href="#controlleroptionserrorhandler">ControllerOptions.errorHandler</a></li>
+											<li><a href="#controlleroptionsbaseurl">ControllerOptions.baseUrl</a></li>
+										</ul>
+									</li>
+									<li><a href="#route-configuration">Route configuration</a></li>
+									<li><a href="#context">Context</a></li>
+								</ul>
+							</li>
+							<li><a href="#validation">Validation</a><ul>
+									<li><a href="#parameters">Parameters</a></li>
+									<li><a href="#advanced-validation">Advanced Validation</a></li>
+									<li><a href="#schema-validation">Schema Validation</a></li>
+									<li><a href="#what-happens-when-validation-fails">What happens when Validation Fails?</a></li>
+									<li><a href="#custom-validators">Custom Validators</a></li>
+									<li><a href="#how-about-validation-against-my-database">How about validation against my database?</a></li>
+									<li><a href="#how-about-validation-against-my-database-from-the-frontend">How about validation against my database from the frontend?</a></li>
+									<li><a href="#what-if-i-need-to-access-my-applications-context-from-my-validator">What if I need to access my application&#39;s context from my validator?</a></li>
+								</ul>
+							</li>
+							<li><a href="#authorization">Authorization</a><ul>
+									<li><a href="#authorization-configuration">Authorization Configuration</a><ul>
+											<li><a href="#authorization-on-a-route">Authorization on a Route</a></li>
+											<li><a href="#authorization-on-a-controller">Authorization on a Controller</a></li>
+											<li><a href="#authorization-on-the-middleware">Authorization on the middleware</a></li>
+											<li><a href="#extra-checks">Extra checks</a></li>
+										</ul>
+									</li>
+									<li><a href="#configuring-the-server-for-authorization">Configuring the server for Authorization</a></li>
+									<li><a href="#configuring-the-client-for-authorization">Configuring the client for Authorization</a></li>
+								</ul>
+							</li>
+							<li><a href="#usage-as-express-middleware">Usage as express middleware</a></li>
+							<li><a href="#usage-as-client">Usage as client</a></li>
+							<li><a href="#scopes">Scopes</a><ul>
+									<li><a href="#precomputing-values">Precomputing values</a></li>
+									<li><a href="#dumping">Dumping</a></li>
+									<li><a href="#nested-objects">Nested Objects</a></li>
+									<li><a href="#populating">Populating</a><ul>
+											<li><a href="#populating-arrays">Populating Arrays</a></li>
+											<li><a href="#a-word-on-validation">A word on validation</a></li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li><a href="#contributing">Contributing</a><ul>
+									<li><a href="#building">Building</a></li>
+									<li><a href="#running-the-tests-with-coverage">Running the tests with coverage</a></li>
+									<li><a href="#linting">Linting</a></li>
+									<li><a href="#starting-the-example">Starting the example</a></li>
+								</ul>
+							</li>
+							<li><a href="#contributors">Contributors</a></li>
+						</ul>
+					</li>
+				</ul>
+				<h2 id="routes-and-controllers">Routes and Controllers</h2>
+				<p>Controllers bundle Routes. Routes can only be defined within controllers.</p>
+				<p>Defining a controller and a route is as simple as:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { controller, route, param, body, ok, created, notFound, conflict } <span class="hljs-keyword">from</span> <span class="hljs-string">"hyrest"</span>;
+
+<span class="hljs-meta">@controller</span>()
+<span class="hljs-keyword">class</span> UserController {
+    <span class="hljs-meta">@route</span>(<span class="hljs-string">"GET"</span>, <span class="hljs-string">"/user/:id"</span>)
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> getUser(<span class="hljs-meta">@param</span>(<span class="hljs-string">"id"</span>) id: <span class="hljs-built_in">string</span>) {
+        <span class="hljs-keyword">const</span> user = ...;
+        <span class="hljs-keyword">if</span> (!user) {
+            <span class="hljs-keyword">return</span> notFound(<span class="hljs-string">"No such user exists."</span>)
+        }
+        <span class="hljs-keyword">return</span> ok(user);
+    }
+
+    <span class="hljs-meta">@route</span>(<span class="hljs-string">"POST"</span>, <span class="hljs-string">"/user"</span>)
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> createUser(<span class="hljs-meta">@body</span>() user: User) {
+        <span class="hljs-keyword">const</span> newUser = ...;
+        <span class="hljs-keyword">if</span> (!newUser) {
+            <span class="hljs-keyword">return</span> conflict(<span class="hljs-string">"User already exists."</span>)
+        }
+        <span class="hljs-keyword">return</span> created(user);
+    }
+}
+</code></pre>
+				<p>In the browser calling the route is as easy as:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> controller = <span class="hljs-keyword">new</span> UserController();
+<span class="hljs-keyword">await</span> controller.getUser(<span class="hljs-string">"the-id-of-some-user"</span>);
+</code></pre>
+				<p>All the HTTP calls will happen automatically.
+					Of course the methods can still be used within the backend itself, without an HTTP
+				request happening.</p>
+				<h3 id="controller-configuration">Controller configuration</h3>
+				<p>Controller&#39;s take an optional configuration object as a parameter: <code>@controller(options)</code>.</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Option</th>
+							<th>used by</th>
+							<th>type</th>
+							<th>example</th>
+							<th>default</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>mode</td>
+							<td>both</td>
+							<td>ControllerMode</td>
+							<td>ControllerMode.CLIENT</td>
+							<td>Autodetect</td>
+						</tr>
+						<tr>
+							<td>throwOnError</td>
+							<td>client only</td>
+							<td>boolean</td>
+							<td>true</td>
+							<td>true</td>
+						</tr>
+						<tr>
+							<td>errorHandler</td>
+							<td>client only</td>
+							<td>function(error: Error) { ... }</td>
+							<td>(err) =&gt; console.error(err)</td>
+							<td>undefined</td>
+						</tr>
+						<tr>
+							<td>baseUrl</td>
+							<td>client only</td>
+							<td>string</td>
+							<td><a href="http://example.com">http://example.com</a></td>
+							<td>undefined</td>
+						</tr>
+					</tbody>
+				</table>
+				<p>It is also possible to configure a controller manually later using <code>configureController</code>:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { configureController, ControllerMode } <span class="hljs-keyword">from</span> <span class="hljs-string">"hyrest"</span>;
+
+configureContoller(UserController, { mode: ControllerMode.CLIENT, ...  });
+</code></pre>
+				<p>Please note that the <code>class</code> is passed and not an <code>instance</code> as the configuration is always
+				applying to all instances of a controller class.</p>
+				<h4 id="controlleroptions-mode">ControllerOptions.mode</h4>
+				<p>Can be <code>ControllerMode.CLIENT</code> or <code>ControllerMode.server</code>. This forces the controller to act as a
+					client or a server. This should not be necessary: By default when runnning in Node
+				<code>ControllerMode.SERVER</code> will be used, and when running in the browser it&#39;s <code>ControllerMode.CLIENT</code>.</p>
+				<h4 id="controlleroptions-throwonerror">ControllerOptions.throwOnError</h4>
+				<p>This option is only relevant to the client. If set to <code>true</code> and a non-2xx HTTP status code is
+					received, an <code>ApiError</code> will be thrown. The same is true for network connection errors or
+				undeserializable bodies.</p>
+				<h4 id="controlleroptions-errorhandler">ControllerOptions.errorHandler</h4>
+				<p>If set, this handler will be called for all errors which would be thrown if <code>throwOnError</code> is set to
+				<code>true</code>.</p>
+				<h4 id="controlleroptions-baseurl">ControllerOptions.baseUrl</h4>
+				<p>This option is only relevant to the client. It should be set in order to tell the client how to
+				reach the backend.</p>
+				<h3 id="route-configuration">Route configuration</h3>
+				<p>A route can be defined using the <code>@route</code> decorator. It takes two arguments: The HTTP method and
+				<a href="https://www.npmjs.com/package/path-to-regexp">an express compatible url pattern</a>.</p>
+				<p>The url parameters, query parameters and the body can be injected into the arguments of the
+					route&#39;s method by using the <code>@param</code> (url parameter), <code>@query</code> (query parameter) and <code>@body</code>
+				decorators.</p>
+				<p>Both <code>@param</code> and <code>@query</code> taken the name for the parameter as an argument, so if the url is
+					defined as <code>/user/:id/game/:gameId</code> and is called with an url like:
+				<code>http://example.com/user/891/game/15532?search=cards&amp;page=3&amp;count=100</code></p>
+				<p>Then a route could take the parameters like this:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { param, query, controller, ok } <span class="hljs-keyword">from</span> <span class="hljs-string">"hyrest"</span>;
+
+<span class="hljs-meta">@controller</span>()
+<span class="hljs-keyword">class</span> UserController {
+    <span class="hljs-meta">@route</span>(<span class="hljs-string">"GET"</span>, <span class="hljs-string">"/user/:id/game/:gameId"</span>)
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> getGame(
+            <span class="hljs-meta">@param</span>(<span class="hljs-string">"id"</span>) id: <span class="hljs-built_in">string</span>,
+            <span class="hljs-meta">@param</span>(<span class="hljs-string">"gameId"</span>) gameId: <span class="hljs-built_in">string</span>,
+            <span class="hljs-meta">@query</span>(<span class="hljs-string">"search"</span>) search: <span class="hljs-built_in">string</span>,
+            <span class="hljs-meta">@query</span>(<span class="hljs-string">"page"</span>) page: <span class="hljs-built_in">string</span>,
+            <span class="hljs-meta">@query</span>(<span class="hljs-string">"count"</span>) count: <span class="hljs-built_in">string</span>) {
+        <span class="hljs-built_in">console</span>.log(id); <span class="hljs-comment">// 891</span>
+        <span class="hljs-built_in">console</span>.log(gameId); <span class="hljs-comment">// 15532</span>
+        <span class="hljs-built_in">console</span>.log(search); <span class="hljs-comment">// cards</span>
+        <span class="hljs-built_in">console</span>.log(page); <span class="hljs-comment">// 3</span>
+        <span class="hljs-built_in">console</span>.log(count); <span class="hljs-comment">// 100</span>
+        <span class="hljs-keyword">return</span>  ok();
+    }
+}
+</code></pre>
+				<p>It is possible to automatically perform a <a href="#schema-validation">schema validation </a> and <a href="#populating">populate
+				the parameter with the correct type</a> limited to a <a href="#scopes">scope</a> with only <code>@body</code>:</p>
+				<pre><code class="lang-typescript">...
+<span class="hljs-meta">@route</span>(<span class="hljs-string">"POST"</span>, <span class="hljs-string">"/signup"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> postSignup(<span class="hljs-meta">@body</span>(signupScope) user: User) {
+    <span class="hljs-comment">// `user` is now validated against `User` and a propert instance of `User`.</span>
+}
+</code></pre>
+				<p>The other direction can also be automated. Call <code>.dump(Type, scope)</code> on the route decorator to have
+				it be automatically populated on the client side and safely dumped on the server side:</p>
+				<pre><code class="lang-typescript">...
+<span class="hljs-meta">@route</span>(<span class="hljs-string">"POST"</span>, <span class="hljs-string">"/signup"</span>).dump(User, signupScope)
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> postSignup(<span class="hljs-meta">@body</span>(signupScope) user: User) {
+}
+
+<span class="hljs-comment">// When this route is called on the frontend, the returned value is actually a `User`.</span>
+</code></pre>
+				<h3 id="context">Context</h3>
+				<p>It is possible to inject a context into each route on the server side. This context can be created by
+					a factory or simply specified as an object or instance. It could carry the database connection, a property
+				with the current user from the database, a unique id for this request or anything similar.</p>
+				<p>Specify the context by calling <code>.context()</code> on the <a href="#usage-as-express-middleware">hyrest middleware</a>:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> anObject = {
+    database: ...
+};
+
+middleware.context(anObject)
+</code></pre>
+				<p>Or as a factory:</p>
+				<pre><code class="lang-typescript">middleware.context(<span class="hljs-keyword">async</span> (request) =&gt; {
+    <span class="hljs-keyword">return</span> {
+        url: request.url,
+        headers: request.headers,
+        database: <span class="hljs-keyword">await</span> connect()
+    };
+});
+</code></pre>
+				<p>The context can then be used in a <a href="#how-about-validation-against-my-database">context validation</a> or
+				injected as an argument:</p>
+				<pre><code class="lang-typescript"><span class="hljs-meta">@route</span>(<span class="hljs-string">"GET"</span>, <span class="hljs-string">"/user/:id"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> getUser(<span class="hljs-meta">@param</span>(<span class="hljs-string">"id"</span>) id: <span class="hljs-built_in">string</span>, <span class="hljs-meta">@context</span> ctx?: <span class="hljs-built_in">any</span>)
+</code></pre>
+				<p>It can afterwards be used in the route method. It is recommended to make the context argument an optional
+				one to be able to skip it when calling the route from the frontend.</p>
+				<h2 id="validation">Validation</h2>
+				<p>Of course it is important to validate all input. The library itself is typesafe but the REST
+					endpoint might be called by 3rd parties. Apart from that consistency checks are also necessary
+				in a typesafe environment.</p>
+				<h3 id="parameters">Parameters</h3>
+				<p>Parameters can be validated and converted using the <code>@is</code> decorator like this:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { query, controller, ok, is, DataType } <span class="hljs-keyword">from</span> <span class="hljs-string">"hyrest"</span>;
+
+<span class="hljs-meta">@controller</span>()
+<span class="hljs-keyword">class</span> GameController {
+    <span class="hljs-meta">@route</span>(<span class="hljs-string">"GET"</span>, <span class="hljs-string">"/games"</span>)
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> listGames(<span class="hljs-meta">@query</span>(<span class="hljs-string">"count"</span>) <span class="hljs-meta">@is</span>(DataType.int) count: <span class="hljs-built_in">number</span>) {
+        <span class="hljs-keyword">return</span> ok([
+            ...
+        ]);
+    }
+}
+</code></pre>
+				<p>When using an <code>@is</code> decorator with a datatype, the input is validated and automatically converted,
+				so in the example above <code>count</code> is of type number.</p>
+				<h3 id="advanced-validation">Advanced Validation</h3>
+				<p>In addition to validating the datatype and converting the input advanced validation can be
+				performed:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { query, controller, ok, is, DataType, required, oneOf } <span class="hljs-keyword">from</span> <span class="hljs-string">"hyrest"</span>;
+
+<span class="hljs-keyword">const</span> categories = [<span class="hljs-string">"casual"</span>, <span class="hljs-string">"shooter"</span>, <span class="hljs-string">"simulation"</span>];
+
+<span class="hljs-meta">@controller</span>()
+<span class="hljs-keyword">class</span> GameController {
+    <span class="hljs-meta">@route</span>(<span class="hljs-string">"GET"</span>, <span class="hljs-string">"/games"</span>)
+    <span class="hljs-keyword">public</span> listGames(
+            <span class="hljs-meta">@query</span>(<span class="hljs-string">"category"</span>) <span class="hljs-meta">@is</span>(DataType.string).validate(oneOf(...categories)) category: <span class="hljs-built_in">string</span>,
+            <span class="hljs-meta">@query</span>(<span class="hljs-string">"count"</span>) <span class="hljs-meta">@is</span>(DataType.int).validateOf(required) count: <span class="hljs-built_in">number</span>,
+            <span class="hljs-meta">@query</span>(<span class="hljs-string">"page"</span>) <span class="hljs-meta">@is</span>(DataType.int).validateOf(required) page: <span class="hljs-built_in">number</span>) {
+        <span class="hljs-keyword">return</span> ok([
+            ...
+        ]);
+    }
+}
+</code></pre>
+				<h3 id="schema-validation">Schema Validation</h3>
+				<p>It is possible to perform schema validation of object using the same infrastructure as for
+				parameters:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { controller, body, created, is, DataType, required, oneOf, schema } <span class="hljs-keyword">from</span> <span class="hljs-string">"hyrest"</span>;
+
+<span class="hljs-keyword">const</span> categories = [<span class="hljs-string">"casual"</span>, <span class="hljs-string">"shooter"</span>, <span class="hljs-string">"simulation"</span>];
+
+<span class="hljs-keyword">interface</span> User {
+    firstName: <span class="hljs-built_in">string</span>;
+    lastName: <span class="hljs-built_in">string</span>;
+    favoriteGame: {
+        category: <span class="hljs-built_in">string</span>;
+    },
+    email: <span class="hljs-built_in">string</span>;
+    password: <span class="hljs-built_in">string</span>;
+}
+
+<span class="hljs-keyword">const</span> UserSchema = {
+    firstName: is(DataType.str),
+    lastName: is(DataType.str),
+    favoriteGame: {
+        category: is(DataType.str).validate(oneOf(...categories)),
+    },
+    email: is(DataType.str).validate(required),
+    password: is(DataType.str).validate(required),
+};
+
+<span class="hljs-meta">@controller</span>()
+<span class="hljs-keyword">class</span> UserControllre {
+    <span class="hljs-meta">@route</span>(<span class="hljs-string">"POST"</span>, <span class="hljs-string">"/user"</span>)
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> createUser(<span class="hljs-meta">@body</span>() <span class="hljs-meta">@is</span>(DataType.obj).schema(UserSchema) user: User) {
+        ...
+        <span class="hljs-keyword">return</span> created(user)
+    }
+}
+</code></pre>
+				<p>Schemas can be generated from classes. The datatypes can be inferred from the typescript type.
+				In order to infer the data type from the property, simply omit the converter from the decorator.</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">class</span> Game {
+    <span class="hljs-meta">@is</span>().validate(oneOf(...categories))
+    <span class="hljs-keyword">public</span> category: <span class="hljs-built_in">string</span>;
+}
+
+<span class="hljs-keyword">class</span> User {
+    <span class="hljs-meta">@is</span>(DataType.int)
+    <span class="hljs-keyword">public</span> age: <span class="hljs-built_in">number</span>;
+
+    <span class="hljs-meta">@is</span>()
+    <span class="hljs-keyword">public</span> firstName: <span class="hljs-built_in">string</span>;
+
+    <span class="hljs-meta">@is</span>()
+    <span class="hljs-keyword">public</span> lastName: <span class="hljs-built_in">string</span>;
+
+    <span class="hljs-meta">@is</span>()
+    <span class="hljs-keyword">public</span> favoriteGame: Game;
+
+    <span class="hljs-meta">@is</span>().validate(required)
+    <span class="hljs-keyword">public</span> email: <span class="hljs-built_in">string</span>;
+
+    <span class="hljs-meta">@is</span>().validate(required)
+    <span class="hljs-keyword">public</span> password: <span class="hljs-built_in">string</span>;
+}
+</code></pre>
+				<p>Still, all properties included in the schema have to be included by decorating them with <code>@is</code>.
+				The schema can then be used by using <code>schemaFrom()</code>:</p>
+				<pre><code class="lang-typescript"><span class="hljs-meta">@route</span>(<span class="hljs-string">"POST"</span>, <span class="hljs-string">"/user"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> createUser(<span class="hljs-meta">@body</span>() <span class="hljs-meta">@is</span>(DataType.obj).schema(schemaFrom(User)) user: User) {
+    ...
+</code></pre>
+				<p>This also works for arrays, however it is not possible to infer the array type from the property,
+				so <code>@specify</code> has to be used:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">class</span> User {
+    ...
+
+    <span class="hljs-meta">@is</span>() <span class="hljs-meta">@specify</span>(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> Game)
+    <span class="hljs-keyword">public</span> games: Game[];
+
+    ...
+}
+</code></pre>
+				<p>Together with <a href="#scopes">Scopes</a> schemas can be validated against a subset of properties:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> signup = createScope();
+
+<span class="hljs-keyword">class</span> User {
+    <span class="hljs-meta">@is</span>()
+    <span class="hljs-keyword">public</span> firstName: <span class="hljs-built_in">string</span>;
+
+    <span class="hljs-meta">@is</span>()
+    <span class="hljs-keyword">public</span> lastName: <span class="hljs-built_in">string</span>;
+
+    <span class="hljs-meta">@is</span>().validate(required) <span class="hljs-meta">@scope</span>(signup)
+    <span class="hljs-keyword">public</span> email: <span class="hljs-built_in">string</span>;
+
+    <span class="hljs-meta">@is</span>().validate(required) <span class="hljs-meta">@scope</span>(signup)
+    <span class="hljs-keyword">public</span> password: <span class="hljs-built_in">string</span>;
+}
+</code></pre>
+				<p>To limit the schema to properties marked with the scope <code>signup</code>, simply specify it:</p>
+				<pre><code class="lang-typescript"><span class="hljs-meta">@route</span>(<span class="hljs-string">"POST"</span>, <span class="hljs-string">"/user"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> createUser(<span class="hljs-meta">@body</span>() <span class="hljs-meta">@is</span>(DataType.obj).schema(schemaFrom(User)).scope(signup) user: User) {
+    ...
+</code></pre>
+				<p>It is also possible to limit individual validators to certain scopes using <code>only</code>. Just wrap the
+				validator in <code>only</code>, specifying a scope:</p>
+				<pre><code class="lang-typescript">only(signup, email)
+</code></pre>
+				<h3 id="what-happens-when-validation-fails-">What happens when Validation Fails?</h3>
+				<p>When the validation fails a <code>422 UNPROCESSABLE ENTITY</code> is returned, containing a body with
+				<code>{ message: &quot;Error message.&quot; }</code>. Only the first error message will be returned.</p>
+				<h3 id="custom-validators">Custom Validators</h3>
+				<p>Validators are not black magic. It is easy to define custom validators and converters.</p>
+				<p>A new datatype can be introduced by implementing a function following this interface:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">interface</span> Converted&lt;T&gt; {
+    error?: <span class="hljs-built_in">string</span>;
+    value?: T;
+}
+
+<span class="hljs-keyword">type</span> Converter&lt;T&gt; = <span class="hljs-function">(<span class="hljs-params">input: <span class="hljs-built_in">any</span></span>) =&gt;</span> Converted&lt;T&gt; | <span class="hljs-built_in">Promise</span>&lt;Converted&lt;T&gt;&gt;;
+</code></pre>
+				<p>The function should return an object with <code>{ value: convertedValue }</code> when the conversion
+				succeeded and <code>{ error: &quot;Oh, no.&quot; }</code> when the input failed to be converted.</p>
+				<p>The <code>float</code> datatype looks like this for example:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">float</span>(<span class="hljs-params">input: <span class="hljs-built_in">any</span></span>): <span class="hljs-title">Converted</span>&lt;<span class="hljs-title">number</span>&gt; </span>{
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> input === <span class="hljs-string">"undefined"</span>) { <span class="hljs-keyword">return</span> { value: input }; }
+    <span class="hljs-keyword">const</span> value = <span class="hljs-built_in">parseFloat</span>(input);
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isNaN</span>(value)) { <span class="hljs-keyword">return</span> { error: <span class="hljs-string">"Not a valid float."</span> }; }
+    <span class="hljs-keyword">return</span> { value} ;
+}
+</code></pre>
+				<p>It is just as easy to add custom validators. The interface looks like this:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">interface</span> Validation {
+    error?: <span class="hljs-built_in">string</span>;
+}
+
+<span class="hljs-keyword">type</span> Validator&lt;T&gt; = <span class="hljs-function">(<span class="hljs-params">input: T</span>) =&gt;</span> Validation | <span class="hljs-built_in">Promise</span>&lt;Validation&gt;;
+
+</code></pre>
+				<p>It&#39;s very similar to introducing new datatypes. In case of success an empty object (<code>{}</code>)  is
+				returned, when an error occured, an error message should be provided.</p>
+				<pre><code class="lang-typescript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">required</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">value: T</span>): <span class="hljs-title">Validation</span> </span>{
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> value === <span class="hljs-string">"undefined"</span> || value === <span class="hljs-literal">null</span>) { <span class="hljs-keyword">return</span> { error: <span class="hljs-string">"Missing required field."</span> }; }
+    <span class="hljs-keyword">return</span> {};
+}
+</code></pre>
+				<h3 id="how-about-validation-against-my-database-">How about validation against my database?</h3>
+				<p>This is not a problem. All validators can be <code>async</code> or return <code>Promise</code>s. This way, a validator
+				might just as well perform a request against the database.</p>
+				<pre><code class="lang-typescript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">emailAvailable</span>(<span class="hljs-params">value: <span class="hljs-built_in">string</span></span>): <span class="hljs-title">Validation</span> </span>{
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> value === <span class="hljs-string">"undefined"</span>) { <span class="hljs-keyword">return</span> {}; }
+    <span class="hljs-keyword">const</span> rows = <span class="hljs-keyword">await</span> db.query(<span class="hljs-string">"SELECT id FROM user WHERE email = ?"</span>, [ value ]);
+    <span class="hljs-keyword">return</span> rows.length === <span class="hljs-number">0</span> ? {} : { error: <span class="hljs-string">"Email already taken."</span> };
+}
+</code></pre>
+				<p>The validation can access the <a href="#context">context</a>:</p>
+				<pre><code class="lang-typescript">is(...).validateCtx(<span class="hljs-function"><span class="hljs-params">context</span> =&gt;</span> context.validation.emailAvailable)
+</code></pre>
+				<h3 id="how-about-validation-against-my-database-from-the-frontend-">How about validation against my database from the frontend?</h3>
+				<p>This is not a problem either:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { controller, route, body } <span class="hljs-keyword">from</span> <span class="hljs-string">"hyrest"</span>;
+
+<span class="hljs-meta">@controller</span>()
+<span class="hljs-keyword">class</span> ValidationController {
+    <span class="hljs-meta">@route</span>(<span class="hljs-string">"POST"</span>, <span class="hljs-string">"/validate/email"</span>)
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> validateEmail(<span class="hljs-meta">@body</span>() value: <span class="hljs-built_in">string</span>) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> value === <span class="hljs-string">"undefined"</span>) { <span class="hljs-keyword">return</span> {}; }
+        <span class="hljs-keyword">const</span> rows = <span class="hljs-keyword">await</span> db.query(<span class="hljs-string">"SELECT id FROM user WHERE email = ?"</span>, [ value ]);
+        <span class="hljs-keyword">return</span> rows.length === <span class="hljs-number">0</span> ? {} : { error: <span class="hljs-string">"Email already taken."</span> };
+    }
+}
+</code></pre>
+				<p>Afterwards just use the method as a validator in any schema or decorator. The frontend will call
+				the REST endpoint and the server will perform the check on the database.</p>
+				<h3 id="what-if-i-need-to-access-my-application-s-context-from-my-validator-">What if I need to access my application&#39;s context from my validator?</h3>
+				<p>Another method called <code>validateCtx</code> exists, which takes a factory with the context passed in as the
+					first argument. It is possible to specify the context by calling <code>.context(obj)</code> on the hyrest
+				middleware. This way a context object can be passed through to the validation.</p>
+				<pre><code class="lang-typescript">app.use(hyrest(...controllers).context({
+    validator: <span class="hljs-function">(<span class="hljs-params">value: <span class="hljs-built_in">string</span></span>) =&gt;</span> {
+        ...
+    }
+}));
+</code></pre>
+				<p>The factory can either return an array of validators or a single validator.</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { controller, route, body, DataType } <span class="hljs-keyword">from</span> <span class="hljs-string">"hyrest"</span>;
+
+<span class="hljs-meta">@controller</span>()
+<span class="hljs-keyword">class</span> SomeController {
+    <span class="hljs-meta">@route</span>(<span class="hljs-string">"POST"</span>, <span class="hljs-string">"/validate/email"</span>)
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> validateEmail(<span class="hljs-meta">@body</span>() <span class="hljs-meta">@is</span>(DataType.str).validateCtx(<span class="hljs-function"><span class="hljs-params">ctx</span> =&gt;</span> ctx.validator) value: <span class="hljs-built_in">string</span>) {
+        ...
+    }
+}
+</code></pre>
+				<h2 id="authorization">Authorization</h2>
+				<p>Authorization is a neccessary part of any REST server.</p>
+				<h3 id="authorization-configuration">Authorization Configuration</h3>
+				<p>Authorization can be configured on:</p>
+				<ul>
+					<li>Each route</li>
+					<li>Each controller</li>
+					<li>The middleware</li>
+				</ul>
+				<p>In each instance, authorization can be switched to <code>AuthorizationMode.NOAUTH</code> or
+				<code>AuthorizationMode.AUTH</code>.</p>
+				<p>If something is configured to be <code>NOAUTH</code> it does not require authorization and no
+				authorization will be performed.</p>
+				<p>If something is configured to be <code>AUTH</code> it does require authorization and an authorization
+				check will be performed.</p>
+				<h4 id="authorization-on-a-route">Authorization on a Route</h4>
+				<p>You can configure each route individually to be <code>AUTH</code> or <code>NOAUTH</code>.</p>
+				<p>The <code>@authorized</code> decorator can mark any route or controller as requiring authorization:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { authorized, unauthorized, controller, route, ok } <span class="hljs-keyword">from</span> <span class="hljs-string">"hyrest"</span>;
+
+<span class="hljs-meta">@controller</span>
+<span class="hljs-keyword">class</span> controller {
+    <span class="hljs-meta">@route</span>(<span class="hljs-string">"get"</span>, <span class="hljs-string">"/test"</span>) <span class="hljs-meta">@authorized</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> method() {
+        <span class="hljs-keyword">return</span> ok();
+    }
+}
+</code></pre>
+				<p>Respectively, <code>@unauthorized</code> excludes the route or controller from authorization.</p>
+				<p>The configuration of route take the highest precedence, overriding the controller&#39;s and middleware&#39;s
+				configuration.</p>
+				<h4 id="authorization-on-a-controller">Authorization on a Controller</h4>
+				<p>A whole controller can be configured to require authorization or be excluded from it. The controller&#39;s
+					configuration will be applied to all routes which are not configured explicitly. It overrides the
+				middleware&#39;s configuration:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { authorized, unauthorized, controller } <span class="hljs-keyword">from</span> <span class="hljs-string">"hyrest"</span>;
+
+<span class="hljs-meta">@controller</span> <span class="hljs-meta">@authorized</span>
+<span class="hljs-keyword">class</span> controller {
+}
+</code></pre>
+				<h4 id="authorization-on-the-middleware">Authorization on the middleware</h4>
+				<p>It is possible to configure the default authorization mode on <a href="#usage-as-express-middleware">the middleware</a>
+				if nothing is configured on either the controller or route. By default, it is set to <code>NOAUTH</code>.</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { AuthorizationMode } <span class="hljs-keyword">from</span> <span class="hljs-string">"hyrest"</span>;
+
+...
+
+middleware.defaultAuthorizationMode(AuthorizationMode.AUTH);
+</code></pre>
+				<h4 id="extra-checks">Extra checks</h4>
+				<p>Each <code>@authorization</code> decorator can be configured to take an extra check:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { authorized, controller, route, ok } <span class="hljs-keyword">from</span> <span class="hljs-string">"hyrest"</span>;
+
+<span class="hljs-meta">@controller</span>
+<span class="hljs-keyword">class</span> Controller {
+    <span class="hljs-meta">@route</span>(<span class="hljs-string">"get"</span>, <span class="hljs-string">"/test"</span>) <span class="hljs-meta">@authorized</span>({ check: <span class="hljs-function">(<span class="hljs-params">request, context</span>) =&gt;</span> <span class="hljs-literal">false</span> })
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> method() {
+        <span class="hljs-keyword">return</span> ok();
+    }
+}
+</code></pre>
+				<p>If it returns <code>true</code> the route will be authorized, otherwise not.</p>
+				<p>The check is performed in addition to the check from the middleware.</p>
+				<h3 id="configuring-the-server-for-authorization">Configuring the server for Authorization</h3>
+				<p>If the server encounters an authorized route, a checker must be configured.
+					A checker will receive <a href="http://expressjs.com/de/api.html#req">express&#39;s</a> as the first,
+					and the <a href="#context">context</a> as the second argument. It should return <code>true</code> or <code>false</code>,
+					with <code>true</code> meaning that the access should be allowed and <code>false</code> meaning, that a <code>401 UNAUTHORIZED</code>
+				should be returned.</p>
+				<pre><code class="lang-typescript">middleware.authorization(<span class="hljs-keyword">async</span> (request, context) =&gt; {
+    <span class="hljs-keyword">return</span> request.headers[<span class="hljs-string">"authorization"</span>] === <span class="hljs-keyword">await</span> context.db.getAuthorizationToken();
+});
+</code></pre>
+				<h3 id="configuring-the-client-for-authorization">Configuring the client for Authorization</h3>
+				<p>A provider for the authorization can be configured in the client by configuring the cointrollers:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { authorized, controller, route, ok, configureController } <span class="hljs-keyword">from</span> <span class="hljs-string">"hyrest"</span>;
+
+<span class="hljs-meta">@controller</span>
+<span class="hljs-keyword">class</span> Controller {
+    ...
+}
+
+configureController(Controller, {
+    authorizationProvider: <span class="hljs-function">(<span class="hljs-params">headers: Headers, currentBody: <span class="hljs-built_in">any</span>, currentQuery: Params</span>) =&gt;</span> {
+        currentQuery[<span class="hljs-string">"authorization"</span>] = <span class="hljs-string">"secret-key-in-the-query"</span>;
+        currentBody.authorizationKey = <span class="hljs-string">"some-secret-key-on-the-body"</span>;
+        headers.append(<span class="hljs-string">"authorization"</span>, <span class="hljs-string">"Bearer secret-key-in-the-headers"</span>);
+    },
+});
+</code></pre>
+				<p>It will receive the headers, body and query as arguments and can mutate them to provide an
+				secret token or therelike.</p>
+				<h2 id="usage-as-express-middleware">Usage as express middleware</h2>
+				<p>Use the <code>hyrest</code> middleware to connect your controllers to express:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { hyrest } <span class="hljs-keyword">from</span> <span class="hljs-string">"hyrest/middleware"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> Express <span class="hljs-keyword">from</span> express;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> BodyParser <span class="hljs-keyword">from</span> <span class="hljs-string">"body-parser"</span>;
+<span class="hljs-keyword">import</span> { UserController } <span class="hljs-keyword">from</span> <span class="hljs-string">"./user-controller"</span>;
+<span class="hljs-keyword">import</span> { GameController } <span class="hljs-keyword">from</span> <span class="hljs-string">"./game-controller"</span>;
+
+<span class="hljs-keyword">const</span> app = Express();
+app.use(Bodyparser.json());
+app.use(hyrest(
+    <span class="hljs-keyword">new</span> UserController(),
+    <span class="hljs-keyword">new</span> GameController(),
+));
+
+app.listen(<span class="hljs-number">3000</span>);
+</code></pre>
+				<p>Everything else hapens magically.
+					<strong>The middleware needs to be directly imported from <code>hyrest/middleware</code> in order to keep the overall bundle
+				independent from express.</strong></p>
+				<h2 id="usage-as-client">Usage as client</h2>
+				<p>Just configure the controller and create an instance in any way:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { configureController } <span class="hljs-keyword">from</span> <span class="hljs-string">"hyrest"</span>;
+<span class="hljs-keyword">import</span> { UserController } <span class="hljs-keyword">from</span> <span class="hljs-string">"./user-controller"</span>;
+<span class="hljs-keyword">import</span> { GameController } <span class="hljs-keyword">from</span> <span class="hljs-string">"./game-controller"</span>;
+
+<span class="hljs-keyword">const</span> options = { baseUrl: <span class="hljs-string">"http://localhost:3000"</span> };
+
+configureController(UserController, options);
+configureController(GameController, options);
+
+<span class="hljs-keyword">const</span> userController = <span class="hljs-keyword">new</span> UserController();
+<span class="hljs-keyword">const</span> gameController = <span class="hljs-keyword">new</span> GameController();
+
+<span class="hljs-keyword">await</span> userController.createUser({
+    firstName: <span class="hljs-string">"Lorem"</span>,
+    lastName: <span class="hljs-string">"Ipsum"</span>,
+    favoriteGame: {
+        category: <span class="hljs-string">"casual"</span>,
+    },
+    email: <span class="hljs-string">"lorem.ipsum@example.com"</span>,
+    password: <span class="hljs-string">"12345678"</span>,
+});
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">await</span> gameController.listGames());
+</code></pre>
+				<h2 id="scopes">Scopes</h2>
+				<p>Use <code>@scope</code> to define scopes in which particular fields of a class should be included.
+					Scopes can include each other. In the example below, the scope <strong>foreign</strong> only includes the
+				fields <code>username</code> and <strong>owner</strong> includes <code>password</code>, <code>email</code> and <code>username</code>.</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { scope, createScope } <span class="hljs-keyword">from</span> <span class="hljs-string">"hyrest"</span>;
+
+<span class="hljs-keyword">const</span> foreign = createScope();
+<span class="hljs-keyword">const</span> owner = createScope().include(foreign);
+<span class="hljs-keyword">const</span> signup = createScope();
+
+<span class="hljs-keyword">class</span> User {
+    <span class="hljs-meta">@scope</span>(owner, signup)
+    <span class="hljs-keyword">public</span> password: <span class="hljs-built_in">string</span>;
+
+    <span class="hljs-meta">@scope</span>(owner, signup)
+    <span class="hljs-keyword">public</span> email: <span class="hljs-built_in">string</span>;
+
+    <span class="hljs-meta">@scope</span>(foreign, signup)
+    <span class="hljs-keyword">public</span> username: <span class="hljs-built_in">string</span>;
+}
+</code></pre>
+				<h3 id="precomputing-values">Precomputing values</h3>
+				<p>Sometimes it can be neccessary to compute values on the server and have them available on the client.
+				This can be achieved using <code>@precompute</code>:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { scope, createScope, precompute } <span class="hljs-keyword">from</span> <span class="hljs-string">"hyrest"</span>;
+
+<span class="hljs-keyword">const</span> owner = createScope();
+<span class="hljs-keyword">const</span> world = createScope();
+
+<span class="hljs-keyword">class</span> User {
+    <span class="hljs-meta">@scope</span>(owner)
+    <span class="hljs-keyword">public</span> email: <span class="hljs-built_in">string</span>;
+
+    <span class="hljs-meta">@scope</span>(world) <span class="hljs-meta">@precompute</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">get</span> avatarUrl() {
+        <span class="hljs-comment">// This code will be executed on the server and the value will be transmitted to the client.</span>
+        <span class="hljs-comment">// The client will never execute this code and does not need access to `this.email`, so</span>
+        <span class="hljs-comment">// `this.email` can be kept private.</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-string">`https://example.com/avatar/<span class="hljs-subst">${sha256(this.email)}</span>.png`</span>;
+    }
+}
+
+<span class="hljs-built_in">console</span>.log(dump(world, user));
+<span class="hljs-comment">// {</span>
+<span class="hljs-comment">//     avatarUrl: "https://example.com/avatar/3426c53bde535550ace9f38078123d630fd1373ec0e507ae9a3aa3b16139ebf2.png"</span>
+<span class="hljs-comment">// }</span>
+</code></pre>
+				<p>Of course on the client the populated instance of the class can normally access the getter, it will
+				return the value received from the server and not execute the code of the getter.</p>
+				<h3 id="dumping">Dumping</h3>
+				<p>The <code>dump</code> function will create a new object containing all keys which were marked with the specific
+				scope.</p>
+				<pre><code class="lang-typescript">
+<span class="hljs-keyword">const</span> user: User = ...;
+
+<span class="hljs-built_in">console</span>.log(dump(owner, user));
+<span class="hljs-comment">// {</span>
+<span class="hljs-comment">//     email: "test@example.com",</span>
+<span class="hljs-comment">//     username: "test",</span>
+<span class="hljs-comment">//     password: "12345678"</span>
+<span class="hljs-comment">// }</span>
+<span class="hljs-built_in">console</span>.log(dump(foreign, user));
+<span class="hljs-comment">// {</span>
+<span class="hljs-comment">//      username: "test"</span>
+<span class="hljs-comment">// }</span>
+</code></pre>
+				<h3 id="nested-objects">Nested objects</h3>
+				<p>Often, objects will be nested and you will want to dump those nested objects. Scopes are valid
+				across nested objects as well:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { scope, createScope } <span class="hljs-keyword">from</span> <span class="hljs-string">"hyrest"</span>;
+
+<span class="hljs-keyword">const</span> foreign = createScope();
+<span class="hljs-keyword">const</span> owner = createScope().include(foreign);
+
+<span class="hljs-keyword">class</span> User {
+    <span class="hljs-meta">@scope</span>(owner)
+    <span class="hljs-keyword">public</span> password: <span class="hljs-built_in">string</span>;
+
+    <span class="hljs-meta">@scope</span>(owner)
+    <span class="hljs-keyword">public</span> email: <span class="hljs-built_in">string</span>;
+
+    <span class="hljs-meta">@scope</span>(foreign)
+    <span class="hljs-keyword">public</span> username: <span class="hljs-built_in">string</span>;
+
+    <span class="hljs-meta">@scope</span>(foreign)
+    <span class="hljs-keyword">public</span> games: Game[];
+}
+
+<span class="hljs-keyword">class</span> Game {
+    <span class="hljs-meta">@scope</span>(owner)
+    <span class="hljs-keyword">public</span> pricePayed: <span class="hljs-built_in">number</span>;
+
+    <span class="hljs-meta">@scope</span>(foreign)
+    <span class="hljs-keyword">public</span> name: <span class="hljs-built_in">string</span>;
+
+    <span class="hljs-meta">@scope</span>(foreign)
+    <span class="hljs-keyword">public</span> hoursPlayed: <span class="hljs-built_in">string</span>;
+}
+</code></pre>
+				<p>So if you call <code>dump</code> on a user, only the correctly scoped properties will be included:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> user: User = ...;
+
+<span class="hljs-built_in">console</span>.log(dump(owner, user));
+<span class="hljs-comment">// {</span>
+<span class="hljs-comment">//    password: "12345678",</span>
+<span class="hljs-comment">//    email: "test@example.com",</span>
+<span class="hljs-comment">//    username: "test",</span>
+<span class="hljs-comment">//    games: [</span>
+<span class="hljs-comment">//        {</span>
+<span class="hljs-comment">//            pricePayed: 42.5,</span>
+<span class="hljs-comment">//            name: "Some game",</span>
+<span class="hljs-comment">//            hoursPlayed: 100,</span>
+<span class="hljs-comment">//        }</span>
+<span class="hljs-comment">//    ]</span>
+<span class="hljs-comment">//}</span>
+<span class="hljs-built_in">console</span>.log(dump(foreign, user));
+<span class="hljs-comment">// {</span>
+<span class="hljs-comment">//    username: "test",</span>
+<span class="hljs-comment">//    games: [</span>
+<span class="hljs-comment">//        {</span>
+<span class="hljs-comment">//            name: "Some game",</span>
+<span class="hljs-comment">//            hoursPlayed: 100,</span>
+<span class="hljs-comment">//        }</span>
+<span class="hljs-comment">//    ]</span>
+<span class="hljs-comment">//}</span>
+</code></pre>
+				<p>You can call <code>dump</code> as described above or use the curried notation (<code>dump(scope)(instance)</code>).
+				This is especially usefull for the use in higher order functions like <code>map</code>:</p>
+				<pre><code class="lang-typescript">users.map(dump(owner))
+</code></pre>
+				<h3 id="populating">Populating</h3>
+				<p>It is possible to populate a structure of classes with a given input using the defined scopes:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { scope, createScope } <span class="hljs-keyword">from</span> <span class="hljs-string">"hyrest"</span>;
+
+<span class="hljs-keyword">const</span> signup = createScope();
+<span class="hljs-keyword">const</span> world = createScope();
+
+<span class="hljs-keyword">class</span> Pet {
+    <span class="hljs-meta">@scope</span>(world)
+    <span class="hljs-keyword">public</span> id: <span class="hljs-built_in">string</span>;
+
+    <span class="hljs-meta">@scope</span>(signup)
+    <span class="hljs-keyword">public</span> name: <span class="hljs-built_in">string</span>;
+
+    <span class="hljs-keyword">public</span> format() {
+        <span class="hljs-keyword">return</span> <span class="hljs-string">`Pet name is: <span class="hljs-subst">${this.name}</span>`</span>;
+    }
+}
+
+<span class="hljs-keyword">class</span> User {
+    <span class="hljs-meta">@scope</span>(world)
+    <span class="hljs-keyword">public</span> id: <span class="hljs-built_in">string</span>;
+
+    <span class="hljs-meta">@scope</span>(signup, world)
+    <span class="hljs-keyword">public</span> name: <span class="hljs-built_in">string</span>;
+
+    <span class="hljs-meta">@scope</span>(signup, world)
+    <span class="hljs-keyword">public</span> email: <span class="hljs-built_in">string</span>;
+
+    <span class="hljs-meta">@scope</span>(signup, world)
+    <span class="hljs-keyword">public</span> password: <span class="hljs-built_in">string</span>;
+
+    <span class="hljs-meta">@scope</span>(signup, world)
+    <span class="hljs-keyword">public</span> pet: Pet;
+
+    <span class="hljs-keyword">public</span> format() {
+        <span class="hljs-keyword">return</span> <span class="hljs-string">`User name is: <span class="hljs-subst">${this.name}</span>`</span>;
+    }
+
+    <span class="hljs-keyword">public</span> passwordLength() {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.password.length;
+    }
+}
+</code></pre>
+				<p>The structure above can be populated with any matching structure. Only the keys defined in the
+					specified scope will be taken into account. Actual instances of the defined classes will
+				be created.</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { populate } <span class="hljs-keyword">from</span> <span class="hljs-string">"hyrest"</span>;
+<span class="hljs-keyword">const</span> input = {
+    name: <span class="hljs-string">"Lorem Ipsum"</span>,
+    email: <span class="hljs-string">"test@example.com"</span>,
+    password: <span class="hljs-string">"12345678"</span>,
+    pet: {
+        name: <span class="hljs-string">"pete"</span>
+    }
+};
+
+<span class="hljs-keyword">const</span> user: User = populate(signup, User, input);
+<span class="hljs-built_in">console</span>.log(user.constructor); <span class="hljs-comment">// Will be `User`</span>
+<span class="hljs-built_in">console</span>.log(user.pet.constructor); <span class="hljs-comment">// Will be `Pet`</span>
+<span class="hljs-built_in">console</span>.log(user.format()); <span class="hljs-comment">// "User name is: Lorem Ipsum"</span>
+<span class="hljs-built_in">console</span>.log(user.pet.format()); <span class="hljs-comment">// "Pet name is: Pete"</span>
+</code></pre>
+				<p>Of course, populate also has a curried version available for easy use in higher order functions:</p>
+				<pre><code class="lang-typescript">populate(signup, User)(input)
+</code></pre>
+				<p>It is possible to transform properties before populating a field using <code>@transform(input =&gt; output)</code>.
+				This is for example usefull to encrypt a password or similar. This also applies to parameters.</p>
+				<p>Dates can be populate from strings automatically (as dates are not preserved but turned into strings
+					when parsing JSON), but the <code>@specify(() =&gt; Date)</code> decorator must be added as currently typescript can not
+				preserve the type to be date on its own.</p>
+				<h4 id="populating-arrays">Populating Arrays</h4>
+				<p>Arrays can also be populated, but a special <code>specify</code> decorator is necessary to infer the type of
+				the array&#39;s elements:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { scope, specify } <span class="hljs-keyword">from</span> <span class="hljs-string">"hyrest"</span>;
+
+<span class="hljs-keyword">class</span> User {
+    <span class="hljs-meta">@scope</span>(signup) <span class="hljs-meta">@specify</span>(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> User)
+    <span class="hljs-keyword">public</span> friends: User[];
+
+    <span class="hljs-meta">@scope</span>(signup) <span class="hljs-meta">@specify</span>(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> Pet)
+    <span class="hljs-keyword">public</span> pets: Pet[];
+
+    <span class="hljs-meta">@scope</span>(signup) <span class="hljs-meta">@specify</span>(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">String</span>)
+    <span class="hljs-keyword">public</span> favoriteColors: <span class="hljs-built_in">string</span>[];
+}
+</code></pre>
+				<p>Otherwise an <code>InvariantError</code> will be thrown.</p>
+				<h4 id="a-word-on-validation">A word on validation</h4>
+				<p>The <code>populate</code> function is not intended to be used for validation and does not feature a
+					validation layer of any kind. If a class expects property <code>a</code> to be a <code>string</code>, but a <code>number</code>
+				is provided, nothing will break. Take a look at <a href="#validation">Validation</a>.</p>
+				<h2 id="contributing">Contributing</h2>
+				<p>Yarn is used instead of npm, so make sure it is installed, probably: <code>npm install -g yarn</code>.</p>
+				<p>Install all dependencies using</p>
+				<pre><code>yarn <span class="hljs-keyword">install</span>
+</code></pre><h3 id="building">Building</h3>
+				<p>In order to build the code:</p>
+				<pre><code><span class="hljs-attribute">yarn build</span>
+</code></pre><h3 id="running-the-tests-with-coverage">Running the tests with coverage</h3>
+				<pre><code>yarn <span class="hljs-built_in">test</span>
+</code></pre><h3 id="linting">Linting</h3>
+				<pre><code><span class="hljs-attribute">yarn lint</span>
+</code></pre><h3 id="starting-the-example">Starting the example</h3>
+				<p>Server:</p>
+				<pre><code>cd exmaple
+yarn <span class="hljs-keyword">run</span><span class="bash">:server</span>
+</code></pre><p>Client:</p>
+				<pre><code>cd exmaple
+yarn <span class="hljs-keyword">run</span><span class="bash">:client</span>
+</code></pre><h2 id="contributors">Contributors</h2>
+				<ul>
+					<li>Frederick Gnodtke</li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-enum">
+						<a href="enums/authorizationmode.html" class="tsd-kind-icon">Authorization<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/controllermode.html" class="tsd-kind-icon">Controller<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/apierror.html" class="tsd-kind-icon">Api<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/controller.html" class="tsd-kind-icon">Controller</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/processed.html" class="tsd-kind-icon">Processed</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/scope.html" class="tsd-kind-icon">Scope</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/answer.html" class="tsd-kind-icon">Answer</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/authorizationoptions.html" class="tsd-kind-icon">Authorization<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/bodyparameter.html" class="tsd-kind-icon">Body<wbr>Parameter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contextparameter.html" class="tsd-kind-icon">Context<wbr>Parameter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/controlleroptions.html" class="tsd-kind-icon">Controller<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/converted.html" class="tsd-kind-icon">Converted</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/fullauthorizationoptions.html" class="tsd-kind-icon">Full<wbr>Authorization<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/fullvalidator.html" class="tsd-kind-icon">Full<wbr>Validator</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/fullvalidatorivokationoptions.html" class="tsd-kind-icon">Full<wbr>Validator<wbr>Ivokation<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/hyrestbuilder.html" class="tsd-kind-icon">Hyrest<wbr>Builder</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/lastcall.html" class="tsd-kind-icon">Last<wbr>Call</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mergeoptions.html" class="tsd-kind-icon">Merge<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/params.html" class="tsd-kind-icon">Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/precomputedclass.html" class="tsd-kind-icon">Precomputed<wbr>Class</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/precomputedinstance.html" class="tsd-kind-icon">Precomputed<wbr>Instance</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/processedinput.html" class="tsd-kind-icon">Processed<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/propertymeta.html" class="tsd-kind-icon">Property<wbr>Meta</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/queryparameter.html" class="tsd-kind-icon">Query<wbr>Parameter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/route.html" class="tsd-kind-icon">Route</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-not-exported">
+						<a href="interfaces/routeconfiguration.html" class="tsd-kind-icon">Route<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/routefunction.html" class="tsd-kind-icon">Route<wbr>Function</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/routeoptions.html" class="tsd-kind-icon">Route<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/schema.html" class="tsd-kind-icon">Schema</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/specifiedtypes.html" class="tsd-kind-icon">Specified<wbr>Types</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/transformoptions.html" class="tsd-kind-icon">Transform<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/urlparameter.html" class="tsd-kind-icon">Url<wbr>Parameter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/validatedproperty.html" class="tsd-kind-icon">Validated<wbr>Property</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/validation.html" class="tsd-kind-icon">Validation</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/validationoptions.html" class="tsd-kind-icon">Validation<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#authorizationchecker" class="tsd-kind-icon">Authorization<wbr>Checker</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#authorizationprovider" class="tsd-kind-icon">Authorization<wbr>Provider</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#constructable" class="tsd-kind-icon">Constructable</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#contextfactory" class="tsd-kind-icon">Context<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#converter" class="tsd-kind-icon">Converter</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#errorhandler" class="tsd-kind-icon">Error<wbr>Handler</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#httpmethod" class="tsd-kind-icon">HTTPMethod</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#hyrestmiddleware" class="tsd-kind-icon">Hyrest<wbr>Middleware</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#transformer" class="tsd-kind-icon">Transformer</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#typecreator" class="tsd-kind-icon">Type<wbr>Creator</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#validator" class="tsd-kind-icon">Validator</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#wrapper" class="tsd-kind-icon">Wrapper</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#datatype" class="tsd-kind-icon">Data<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#emailvalidationregex" class="tsd-kind-icon">email<wbr>Validation<wbr>Regex</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#lastcall" class="tsd-kind-icon">last<wbr>Call</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#uuidvalidationregex" class="tsd-kind-icon">uuid<wbr>Validation<wbr>Regex</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#accepted" class="tsd-kind-icon">accepted</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#allkeys" class="tsd-kind-icon">all<wbr>Keys</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-not-exported">
+						<a href="globals.html#answer" class="tsd-kind-icon">answer</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#arr" class="tsd-kind-icon">arr</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#auth" class="tsd-kind-icon">auth</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#badgateway" class="tsd-kind-icon">bad<wbr>Gateway</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#badrequest" class="tsd-kind-icon">bad<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#body" class="tsd-kind-icon">body</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#bool" class="tsd-kind-icon">bool</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#buildquerystring" class="tsd-kind-icon">build<wbr>Query<wbr>String</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#buildurl" class="tsd-kind-icon">build<wbr>Url</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-not-exported">
+						<a href="globals.html#configureauthorization" class="tsd-kind-icon">configure<wbr>Authorization</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#configurecontroller" class="tsd-kind-icon">configure<wbr>Controller</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#conflict" class="tsd-kind-icon">conflict</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#consumelastcall" class="tsd-kind-icon">consume<wbr>Last<wbr>Call</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#context" class="tsd-kind-icon">context</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#controller" class="tsd-kind-icon">controller</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#createscope" class="tsd-kind-icon">create<wbr>Scope</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#created" class="tsd-kind-icon">created</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#dump" class="tsd-kind-icon">dump</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#email" class="tsd-kind-icon">email</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#expectationfailed" class="tsd-kind-icon">expectation<wbr>Failed</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#faileddependency" class="tsd-kind-icon">failed<wbr>Dependency</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#float" class="tsd-kind-icon">float</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#forbidden" class="tsd-kind-icon">forbidden</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#gatewaytimeout" class="tsd-kind-icon">gateway<wbr>Timeout</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#getauthorization" class="tsd-kind-icon">get<wbr>Authorization</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getbodyparameters" class="tsd-kind-icon">get<wbr>Body<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getcontextparameters" class="tsd-kind-icon">get<wbr>Context<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getdefaultcontrollermode" class="tsd-kind-icon">get<wbr>Default<wbr>Controller<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#getparametervalidation" class="tsd-kind-icon">get<wbr>Parameter<wbr>Validation</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getprecomputedclass" class="tsd-kind-icon">get<wbr>Precomputed<wbr>Class</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getprecomputedinstance" class="tsd-kind-icon">get<wbr>Precomputed<wbr>Instance</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#getpropertyvalidation" class="tsd-kind-icon">get<wbr>Property<wbr>Validation</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getqueryparameters" class="tsd-kind-icon">get<wbr>Query<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getroutes" class="tsd-kind-icon">get<wbr>Routes</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getspecifiedtype" class="tsd-kind-icon">get<wbr>Specified<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#gettransforms" class="tsd-kind-icon">get<wbr>Transforms</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#geturlparameters" class="tsd-kind-icon">get<wbr>Url<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getvalidatedproperties" class="tsd-kind-icon">get<wbr>Validated<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-not-exported">
+						<a href="globals.html#getwrapper" class="tsd-kind-icon">get<wbr>Wrapper</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#gone" class="tsd-kind-icon">gone</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#httpcontinue" class="tsd-kind-icon">http<wbr>Continue</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#httpversionnotsupported" class="tsd-kind-icon">http<wbr>Version<wbr>Not<wbr>Supported</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#hyrest" class="tsd-kind-icon">hyrest</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#inferconverter" class="tsd-kind-icon">infer<wbr>Converter</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#insufficientspaceonresource" class="tsd-kind-icon">insufficient<wbr>Space<wbr>OnResource</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#insufficientstorage" class="tsd-kind-icon">insufficient<wbr>Storage</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#int" class="tsd-kind-icon">int</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#internalservererror" class="tsd-kind-icon">internal<wbr>Server<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#is" class="tsd-kind-icon">is</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#isbrowser" class="tsd-kind-icon">is<wbr>Browser</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#iscustomclass" class="tsd-kind-icon">is<wbr>Custom<wbr>Class</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#iswrapper" class="tsd-kind-icon">is<wbr>Wrapper</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#length" class="tsd-kind-icon">length</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#lengthrequired" class="tsd-kind-icon">length<wbr>Required</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#listroutes" class="tsd-kind-icon">list<wbr>Routes</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#locked" class="tsd-kind-icon">locked</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#methodfailure" class="tsd-kind-icon">method<wbr>Failure</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#methodnotallowed" class="tsd-kind-icon">method<wbr>Not<wbr>Allowed</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#movedpermanently" class="tsd-kind-icon">moved<wbr>Permanently</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#movedtemporarily" class="tsd-kind-icon">moved<wbr>Temporarily</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#multistatus" class="tsd-kind-icon">multi<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#multiplechoices" class="tsd-kind-icon">multiple<wbr>Choices</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#networkauthenticationrequired" class="tsd-kind-icon">network<wbr>Authentication<wbr>Required</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#nocontent" class="tsd-kind-icon">no<wbr>Content</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#noauth" class="tsd-kind-icon">noauth</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#nonauthoritativeinformation" class="tsd-kind-icon">non<wbr>Authoritative<wbr>Information</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#notacceptable" class="tsd-kind-icon">not<wbr>Acceptable</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#notfound" class="tsd-kind-icon">not<wbr>Found</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#notimplemented" class="tsd-kind-icon">not<wbr>Implemented</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#notmodified" class="tsd-kind-icon">not<wbr>Modified</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#obj" class="tsd-kind-icon">obj</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#ok" class="tsd-kind-icon">ok</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#oneof" class="tsd-kind-icon">one<wbr>Of</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#only" class="tsd-kind-icon">only</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#param" class="tsd-kind-icon">param</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#partialcontent" class="tsd-kind-icon">partial<wbr>Content</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#paymentrequired" class="tsd-kind-icon">payment<wbr>Required</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#populate" class="tsd-kind-icon">populate</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#precompute" class="tsd-kind-icon">precompute</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#preconditionfailed" class="tsd-kind-icon">precondition<wbr>Failed</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#preconditionrequired" class="tsd-kind-icon">precondition<wbr>Required</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#processvalue" class="tsd-kind-icon">process<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#processing" class="tsd-kind-icon">processing</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#proxyauthenticationrequired" class="tsd-kind-icon">proxy<wbr>Authentication<wbr>Required</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#query" class="tsd-kind-icon">query</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#range" class="tsd-kind-icon">range</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#requestheaderfieldstoolarge" class="tsd-kind-icon">request<wbr>Header<wbr>Fields<wbr>Too<wbr>Large</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#requesttimeout" class="tsd-kind-icon">request<wbr>Timeout</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#requesttoolong" class="tsd-kind-icon">request<wbr>Too<wbr>Long</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#requesturitoolong" class="tsd-kind-icon">request<wbr>Uri<wbr>Too<wbr>Long</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#requestedrangenotsatisfiable" class="tsd-kind-icon">requested<wbr>Range<wbr>Not<wbr>Satisfiable</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#required" class="tsd-kind-icon">required</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#resetcontent" class="tsd-kind-icon">reset<wbr>Content</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#route" class="tsd-kind-icon">route</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#schemafrom" class="tsd-kind-icon">schema<wbr>From</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#scope" class="tsd-kind-icon">scope</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#seeother" class="tsd-kind-icon">see<wbr>Other</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#serviceunavailable" class="tsd-kind-icon">service<wbr>Unavailable</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#setlastcall" class="tsd-kind-icon">set<wbr>Last<wbr>Call</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#specify" class="tsd-kind-icon">specify</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#str" class="tsd-kind-icon">str</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#switchingprotocols" class="tsd-kind-icon">switching<wbr>Protocols</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#temporaryredirect" class="tsd-kind-icon">temporary<wbr>Redirect</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#toomanyrequests" class="tsd-kind-icon">too<wbr>Many<wbr>Requests</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#transform" class="tsd-kind-icon">transform</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#unauthorized" class="tsd-kind-icon">unauthorized</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#unprocessableentity" class="tsd-kind-icon">unprocessable<wbr>Entity</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#unsupportedmediatype" class="tsd-kind-icon">unsupported<wbr>Media<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#useproxy" class="tsd-kind-icon">use<wbr>Proxy</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#uuid" class="tsd-kind-icon">uuid</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#validateschema" class="tsd-kind-icon">validate<wbr>Schema</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
