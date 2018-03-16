@@ -1,0 +1,419 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>test-decorators</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">test-decorators</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> test-decorators</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<h1 id="test-decorators">Test Decorators</h1>
+				<p><a href="https://www.npmjs.com/package/test-decorators"><img src="https://img.shields.io/npm/v/test-decorators.svg" alt="npm"></a>
+					<a href="https://travis-ci.org/Prior99/test-decorators"><img src="https://travis-ci.org/Prior99/test-decorators.svg?branch=master" alt="Build Status"></a>
+				<a href="https://coveralls.io/github/Prior99/test-decorators?branch=master"><img src="https://coveralls.io/repos/github/Prior99/test-decorators/badge.svg?branch=master" alt="Coverage Status"></a></p>
+				<p>Test decorators provides a set of decorators to run javascript unit tests with.</p>
+				<h2 id="table-of-contents">Table of contents</h2>
+				<ul>
+					<li><a href="#test-decorators">Test Decorators</a><ul>
+							<li><a href="#table-of-contents">Table of contents</a></li>
+							<li><a href="#suites">Suites</a></li>
+							<li><a href="#tests">Tests</a></li>
+							<li><a href="#parameterizing">Parameterizing</a></li>
+							<li><a href="#configuration">Configuration</a></li>
+							<li><a href="#contributing">Contributing</a><ul>
+									<li><a href="#building">Building</a></li>
+									<li><a href="#running-the-tests-with-coverage">Running the tests with coverage</a></li>
+									<li><a href="#linting">Linting</a></li>
+									<li><a href="#starting-the-example">Starting the example</a></li>
+								</ul>
+							</li>
+							<li><a href="#contributors">Contributors</a></li>
+						</ul>
+					</li>
+				</ul>
+				<h2 id="suites">Suites</h2>
+				<p>Instead of writing <code>describe</code>, define a class and decorate it with <code>@suite</code>:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { suite } <span class="hljs-keyword">from</span> <span class="hljs-string">"test-decorators"</span>;
+
+<span class="hljs-meta">@suite</span>
+<span class="hljs-keyword">class</span> TestSuite {
+}
+</code></pre>
+				<p>The decorator takes optional options as arguments, to provide a name or have <code>describe.only</code> called
+				instead:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { suite } <span class="hljs-keyword">from</span> <span class="hljs-string">"test-decorators"</span>;
+
+<span class="hljs-meta">@suite</span>(<span class="hljs-string">"The name provided to describe"</span>)
+<span class="hljs-keyword">class</span> TestSuite {
+}
+</code></pre>
+				<pre><code class="lang-typescript"><span class="hljs-meta">@suite</span>({
+    name: <span class="hljs-string">"The name provided to describe"</span>,
+    only: <span class="hljs-literal">true</span>
+})
+<span class="hljs-keyword">class</span> TestSuite {
+}
+</code></pre>
+				<p>If no name is provided, the name of the class is used.</p>
+				<h2 id="tests">Tests</h2>
+				<p>Instead of writing <code>it</code>, define a class decorated with <code>@suite</code> and provide methods decorated with <code>@test</code>:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { suite, test } <span class="hljs-keyword">from</span> <span class="hljs-string">"test-decorators"</span>;
+
+<span class="hljs-meta">@suite</span>
+<span class="hljs-keyword">class</span> TestSuite {
+    <span class="hljs-meta">@test</span>
+    <span class="hljs-keyword">private</span> testSomething() {
+        ...
+    }
+}
+</code></pre>
+				<p>The decorator takes optional options as arguments, to provide a name or have <code>test.only</code> called
+				instead:</p>
+				<pre><code class="lang-typescript"><span class="hljs-meta">@test</span>(<span class="hljs-string">"test something"</span>)
+<span class="hljs-keyword">private</span> testSomething() {
+    ...
+}
+</code></pre>
+				<pre><code class="lang-typescript"><span class="hljs-meta">@test</span>({
+    name: <span class="hljs-string">"test something"</span>,
+    only: <span class="hljs-literal">true</span>
+})
+<span class="hljs-keyword">private</span> testSomething() {
+    ...
+}
+</code></pre>
+				<p>If no name is provided, the name of the method is used.</p>
+				<h2 id="parameterizing">Parameterizing</h2>
+				<p>It is possible to parameterize the tests to have them called with different inputs:</p>
+				<pre><code class="lang-typescript"><span class="hljs-meta">@test</span>({
+    name: <span class="hljs-string">"test something"</span>,
+    only: <span class="hljs-literal">true</span>,
+    params: [<span class="hljs-number">-1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">10</span>, <span class="hljs-number">1000</span>, <span class="hljs-number">2000</span>]
+})
+<span class="hljs-keyword">private</span> testSomething(input) {
+    ...
+}
+</code></pre>
+				<p>The test will be executed once with every parameter specified.</p>
+				<p>The name can be generated from the parameters to increase readability:</p>
+				<pre><code class="lang-typescript"><span class="hljs-meta">@test</span>({
+    name: <span class="hljs-function">(<span class="hljs-params">{ a, b, expected }</span>) =&gt;</span> <span class="hljs-string">`<span class="hljs-subst">${a}</span> + <span class="hljs-subst">${b}</span> is <span class="hljs-subst">${expected}</span>`</span>,
+    only: <span class="hljs-literal">true</span>,
+    params: [
+        { a: <span class="hljs-number">-1</span>, b: <span class="hljs-number">1</span>, expected: <span class="hljs-number">0</span> },
+        { a: <span class="hljs-number">0</span>, b: <span class="hljs-number">0</span>, expected: <span class="hljs-number">0</span> },
+        { a: <span class="hljs-number">100</span>, b: <span class="hljs-number">1</span>, expected: <span class="hljs-number">101</span> }
+    ]
+})
+<span class="hljs-keyword">private</span> testSomething({ a, b, expected }) {
+    expect(a + b).tobe(expected);
+}
+</code></pre>
+				<h2 id="configuration">Configuration</h2>
+				<p>This library should work out of the box with jest and mocha compatible framework without any
+					additional configuration needed. Otherwise it is possible to configure it and provide
+				mocha-compatible functions:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { configure } <span class="hljs-keyword">from</span> <span class="hljs-string">"test-decorators"</span>
+
+configure({
+    it: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> { ... },
+    itOnly: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> { ... },
+    describe: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> { ... },
+    describeOnly: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> { ... },
+});
+</code></pre>
+				<h2 id="contributing">Contributing</h2>
+				<p>Yarn is used instead of npm, so make sure it is installed, probably: <code>npm install -g yarn</code>.</p>
+				<p>Install all dependencies using</p>
+				<pre><code>yarn <span class="hljs-keyword">install</span>
+</code></pre><h3 id="building">Building</h3>
+				<p>In order to build the code:</p>
+				<pre><code><span class="hljs-attribute">yarn build</span>
+</code></pre><h3 id="running-the-tests-with-coverage">Running the tests with coverage</h3>
+				<pre><code>yarn <span class="hljs-built_in">test</span>
+</code></pre><h3 id="linting">Linting</h3>
+				<pre><code><span class="hljs-attribute">yarn lint</span>
+</code></pre><h3 id="starting-the-example">Starting the example</h3>
+				<pre><code><span class="hljs-built_in">cd</span> example
+yarn <span class="hljs-built_in">test</span>
+</code></pre><h2 id="contributors">Contributors</h2>
+				<ul>
+					<li>Frederick Gnodtke</li>
+					<li>Sergej Kasper</li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/configureoptions.html" class="tsd-kind-icon">Configure<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/preparedsuiteoptions.html" class="tsd-kind-icon">Prepared<wbr>Suite<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/preparedtestoptions.html" class="tsd-kind-icon">Prepared<wbr>Test<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/suiteoptions.html" class="tsd-kind-icon">Suite<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/testoptions.html" class="tsd-kind-icon">Test<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#afterall" class="tsd-kind-icon">After<wbr>All</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#afteralldecorator" class="tsd-kind-icon">After<wbr>All<wbr>Decorator</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#afterallfunction" class="tsd-kind-icon">After<wbr>All<wbr>Function</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#aftereach" class="tsd-kind-icon">After<wbr>Each</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#aftereachdecorator" class="tsd-kind-icon">After<wbr>Each<wbr>Decorator</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#aftereachfunction" class="tsd-kind-icon">After<wbr>Each<wbr>Function</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#beforeall" class="tsd-kind-icon">Before<wbr>All</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#beforealldecorator" class="tsd-kind-icon">Before<wbr>All<wbr>Decorator</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#beforeallfunction" class="tsd-kind-icon">Before<wbr>All<wbr>Function</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#beforeeach" class="tsd-kind-icon">Before<wbr>Each</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#beforeeachdecorator" class="tsd-kind-icon">Before<wbr>Each<wbr>Decorator</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#beforeeachfunction" class="tsd-kind-icon">Before<wbr>Each<wbr>Function</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#constructable" class="tsd-kind-icon">Constructable</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#describe" class="tsd-kind-icon">Describe</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#describefunction" class="tsd-kind-icon">Describe<wbr>Function</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#it" class="tsd-kind-icon">It</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#itfunction" class="tsd-kind-icon">It<wbr>Function</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#suiteoptionsinput" class="tsd-kind-icon">Suite<wbr>Options<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#testdecorator" class="tsd-kind-icon">Test<wbr>Decorator</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#testfunction" class="tsd-kind-icon">Test<wbr>Function</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#testoptionsinput" class="tsd-kind-icon">Test<wbr>Options<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#configuration" class="tsd-kind-icon">configuration</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#global" class="tsd-kind-icon">global</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#afterall" class="tsd-kind-icon">after<wbr>All</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#aftereach" class="tsd-kind-icon">after<wbr>Each</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#beforeall" class="tsd-kind-icon">before<wbr>All</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#beforeeach" class="tsd-kind-icon">before<wbr>Each</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#configure" class="tsd-kind-icon">configure</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getafteralls" class="tsd-kind-icon">get<wbr>After<wbr>Alls</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getaftereachs" class="tsd-kind-icon">get<wbr>After<wbr>Eachs</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getbeforealls" class="tsd-kind-icon">get<wbr>Before<wbr>Alls</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getbeforeeachs" class="tsd-kind-icon">get<wbr>Before<wbr>Eachs</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#gettests" class="tsd-kind-icon">get<wbr>Tests</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#initializeconfiguration" class="tsd-kind-icon">initialize<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#issuiteoptionsinput" class="tsd-kind-icon">is<wbr>Suite<wbr>Options<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#istestoptionsinput" class="tsd-kind-icon">is<wbr>Test<wbr>Options<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#parsesuiteoptions" class="tsd-kind-icon">parse<wbr>Suite<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#parsetestoptions" class="tsd-kind-icon">parse<wbr>Test<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#suite" class="tsd-kind-icon">suite</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#test" class="tsd-kind-icon">test</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
