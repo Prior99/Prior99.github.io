@@ -93,10 +93,11 @@
 						<section class="tsd-index-section ">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="pngimage.html#alpha" class="tsd-kind-icon">alpha</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="pngimage.html#bitdepth" class="tsd-kind-icon">bit<wbr>Depth</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="pngimage.html#buffer" class="tsd-kind-icon">buffer</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="pngimage.html#channels" class="tsd-kind-icon">channels</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="pngimage.html#colortype" class="tsd-kind-icon">color<wbr>Type</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="pngimage.html#data" class="tsd-kind-icon">data</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="pngimage.html#height" class="tsd-kind-icon">height</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="pngimage.html#interlacetype" class="tsd-kind-icon">interlace<wbr>Type</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="pngimage.html#offsetx" class="tsd-kind-icon">offsetX</a></li>
@@ -105,6 +106,12 @@
 								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="pngimage.html#pixelspermetery" class="tsd-kind-icon">pixels<wbr>Per<wbr>MeterY</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="pngimage.html#rowbytes" class="tsd-kind-icon">row<wbr>Bytes</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="pngimage.html#width" class="tsd-kind-icon">width</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pngimage.html#encode" class="tsd-kind-icon">encode</a></li>
 							</ul>
 						</section>
 					</div>
@@ -122,7 +129,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/d3eadcf/src/png-image.ts#L53">png-image.ts:53</a></li>
+									<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/a0301b4/src/png-image.ts#L54">png-image.ts:54</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -144,13 +151,35 @@
 					<div class="tsd-signature tsd-kind-icon">native<wbr>Png<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/d3eadcf/src/png-image.ts#L53">png-image.ts:53</a></li>
+							<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/a0301b4/src/png-image.ts#L54">png-image.ts:54</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="alpha" class="tsd-anchor"></a>
+					<h3>alpha</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> alpha<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/a0301b4/src/png-image.ts#L133">png-image.ts:133</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Will be <code>true</code> if the image&#39;s color type has an alpha channel and <code>false</code> otherwise.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
 					<a name="bitdepth" class="tsd-anchor"></a>
 					<h3>bit<wbr>Depth</h3>
@@ -161,7 +190,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/d3eadcf/src/png-image.ts#L63">png-image.ts:63</a></li>
+									<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/a0301b4/src/png-image.ts#L64">png-image.ts:64</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -175,28 +204,6 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
-					<a name="buffer" class="tsd-anchor"></a>
-					<h3>buffer</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> buffer<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/d3eadcf/src/png-image.ts#L127">png-image.ts:127</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>The buffer containing the data of the decoded image.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Buffer</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
 					<a name="channels" class="tsd-anchor"></a>
 					<h3>channels</h3>
 					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
@@ -206,7 +213,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/d3eadcf/src/png-image.ts#L69">png-image.ts:69</a></li>
+									<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/a0301b4/src/png-image.ts#L70">png-image.ts:70</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -229,7 +236,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/d3eadcf/src/png-image.ts#L75">png-image.ts:75</a></li>
+									<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/a0301b4/src/png-image.ts#L76">png-image.ts:76</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -243,6 +250,28 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="data" class="tsd-anchor"></a>
+					<h3>data</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> data<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/a0301b4/src/png-image.ts#L128">png-image.ts:128</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The buffer containing the data of the decoded image.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Buffer</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
 					<a name="height" class="tsd-anchor"></a>
 					<h3>height</h3>
 					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
@@ -252,7 +281,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/d3eadcf/src/png-image.ts#L81">png-image.ts:81</a></li>
+									<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/a0301b4/src/png-image.ts#L82">png-image.ts:82</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -275,7 +304,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/d3eadcf/src/png-image.ts#L92">png-image.ts:92</a></li>
+									<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/a0301b4/src/png-image.ts#L93">png-image.ts:93</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -297,7 +326,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/d3eadcf/src/png-image.ts#L104">png-image.ts:104</a></li>
+									<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/a0301b4/src/png-image.ts#L105">png-image.ts:105</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -320,7 +349,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/d3eadcf/src/png-image.ts#L110">png-image.ts:110</a></li>
+									<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/a0301b4/src/png-image.ts#L111">png-image.ts:111</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -343,7 +372,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/d3eadcf/src/png-image.ts#L116">png-image.ts:116</a></li>
+									<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/a0301b4/src/png-image.ts#L117">png-image.ts:117</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -366,7 +395,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/d3eadcf/src/png-image.ts#L122">png-image.ts:122</a></li>
+									<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/a0301b4/src/png-image.ts#L123">png-image.ts:123</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -389,7 +418,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/d3eadcf/src/png-image.ts#L98">png-image.ts:98</a></li>
+									<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/a0301b4/src/png-image.ts#L99">png-image.ts:99</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -412,7 +441,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/d3eadcf/src/png-image.ts#L87">png-image.ts:87</a></li>
+									<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/a0301b4/src/png-image.ts#L88">png-image.ts:88</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -422,6 +451,31 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="encode" class="tsd-anchor"></a>
+					<h3>encode</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">encode<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Prior99/node-libpng/blob/a0301b4/src/png-image.ts#L146">png-image.ts:146</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Will encode this image to a PNG buffer.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Buffer</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -455,16 +509,19 @@
 								<a href="pngimage.html#nativepng" class="tsd-kind-icon">native<wbr>Png</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
-								<a href="pngimage.html#bitdepth" class="tsd-kind-icon">bit<wbr>Depth</a>
+								<a href="pngimage.html#alpha" class="tsd-kind-icon">alpha</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
-								<a href="pngimage.html#buffer" class="tsd-kind-icon">buffer</a>
+								<a href="pngimage.html#bitdepth" class="tsd-kind-icon">bit<wbr>Depth</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 								<a href="pngimage.html#channels" class="tsd-kind-icon">channels</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 								<a href="pngimage.html#colortype" class="tsd-kind-icon">color<wbr>Type</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="pngimage.html#data" class="tsd-kind-icon">data</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 								<a href="pngimage.html#height" class="tsd-kind-icon">height</a>
@@ -490,15 +547,27 @@
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 								<a href="pngimage.html#width" class="tsd-kind-icon">width</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="pngimage.html#encode" class="tsd-kind-icon">encode</a>
+							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/encodeoptions.html" class="tsd-kind-icon">Encode<wbr>Options</a>
+					</li>
 					<li class=" tsd-kind-variable">
 						<a href="../globals.html#__native_pngimage" class="tsd-kind-icon">__native_<wbr><wbr>Png<wbr>Image</a>
 					</li>
 					<li class=" tsd-kind-variable">
+						<a href="../globals.html#__native_encode" class="tsd-kind-icon">__native_<wbr>encode</a>
+					</li>
+					<li class=" tsd-kind-variable">
 						<a href="../globals.html#__native_ispng" class="tsd-kind-icon">__native_<wbr>is<wbr>Png</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../globals.html#encode" class="tsd-kind-icon">encode</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="../globals.html#ispng" class="tsd-kind-icon">is<wbr>Png</a>

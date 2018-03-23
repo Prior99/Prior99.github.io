@@ -67,6 +67,7 @@
 				<h1 id="node-libpng">node-libpng</h1>
 				<p><a href="https://www.npmjs.com/package/node-libpng"><img src="https://img.shields.io/npm/v/node-libpng.svg" alt="npm"></a>
 					<a href="https://travis-ci.org/Prior99/node-libpng"><img src="https://travis-ci.org/Prior99/node-libpng.svg?branch=master" alt="Build Status"></a>
+					<a href="https://ci.appveyor.com/project/Prior99/node-libpng/branch/master"><img src="https://ci.appveyor.com/api/projects/status/1dbpcj210jlyv0e1/branch/master?svg=true" alt="Build status"></a>
 				<a href="https://coveralls.io/github/Prior99/node-libpng?branch=master"><img src="https://coveralls.io/repos/github/Prior99/node-libpng/badge.svg?branch=master" alt="Coverage Status"></a></p>
 				<p>Unofficial bindings for node to libpng.</p>
 				<p>Please also refer to the <strong><a href="https://prior99.github.io/node-libpng/docs/index.html">Documentation</a></strong>.</p>
@@ -74,17 +75,98 @@
 				<ul>
 					<li><a href="#node-libpng">node-libpng</a><ul>
 							<li><a href="#table-of-contents">Table of contents</a></li>
+							<li><a href="#supported-environments">Supported environments</a></li>
+							<li><a href="#benchmark">Benchmark</a><ul>
+									<li><a href="#read-access-decoding">Read access (Decoding)</a></li>
+									<li><a href="#write-access-encoding">Write access (Encoding)</a></li>
+									<li><a href="#pixel-access">Pixel access</a></li>
+								</ul>
+							</li>
 							<li><a href="#contributing">Contributing</a><ul>
 									<li><a href="#building">Building</a></li>
 									<li><a href="#running-the-tests-with-coverage">Running the tests with coverage</a></li>
 									<li><a href="#linting">Linting</a></li>
 									<li><a href="#starting-the-example">Starting the example</a></li>
+									<li><a href="#generating-the-libpng-config">Generating the libpng config</a></li>
 								</ul>
 							</li>
 							<li><a href="#contributors">Contributors</a></li>
 						</ul>
 					</li>
 				</ul>
+				<h2 id="supported-environments">Supported environments</h2>
+				<p>This is a native Addon to NodeJS which delivers prebuilt binaries. Only some environments are supported:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Node Version</th>
+							<th>Windows 64-Bit</th>
+							<th>Windows 32-Bit</th>
+							<th>Linux 64-Bit</th>
+							<th>Linux 32-Bit</th>
+							<th>OSX</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Earlier</td>
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+						</tr>
+						<tr>
+							<td>Node 6 <em>(Abi 48)</em></td>
+							<td>:heavy_check_mark:</td>
+							<td>:heavy_check_mark:</td>
+							<td>:heavy_check_mark:</td>
+							<td>-</td>
+							<td>:heavy_check_mark:</td>
+						</tr>
+						<tr>
+							<td>Node 7 <em>(Abi 51)</em></td>
+							<td>:heavy_check_mark:</td>
+							<td>:heavy_check_mark:</td>
+							<td>:heavy_check_mark:</td>
+							<td>-</td>
+							<td>:heavy_check_mark:</td>
+						</tr>
+						<tr>
+							<td>Node 8 <em>(Abi 57)</em></td>
+							<td>:heavy_check_mark:</td>
+							<td>:heavy_check_mark:</td>
+							<td>:heavy_check_mark:</td>
+							<td>-</td>
+							<td>:heavy_check_mark:</td>
+						</tr>
+						<tr>
+							<td>Node 9 <em>(Abi 59)</em></td>
+							<td>:heavy_check_mark:</td>
+							<td>:heavy_check_mark:</td>
+							<td>:heavy_check_mark:</td>
+							<td>-</td>
+							<td>:heavy_check_mark:</td>
+						</tr>
+					</tbody>
+				</table>
+				<h2 id="benchmark">Benchmark</h2>
+				<p>As it is a native addon, <strong>node-libpng</strong> is much faster than libraries like <a href="https://www.npmjs.com/package/pngjs">pngjs</a>:</p>
+				<h3 id="read-access-decoding-">Read access (Decoding)</h3>
+				<p>The chart below shows the comparison of decoding an image between <a href="https://www.npmjs.com/package/pngjs">pngjs</a> (sync api) and <strong>node-libpng</strong>.
+				The time to fully decode a 4096x4096 image is measured (Higher is better).</p>
+				<p><img src="images/benchmark-read.png" alt="read benchmark"></p>
+				<p><em>(The x-axis scale shows the amount of fully decoded images per second.)</em></p>
+				<h3 id="write-access-encoding-">Write access (Encoding)</h3>
+				<p>The chart below shows the comparison of encoding an image between <a href="https://www.npmjs.com/package/pngjs">pngjs</a> (sync api) and <strong>node-libpng</strong>.
+				The time to fully encode a 4096x4096 image is measured (Higher is better).</p>
+				<p><img src="images/benchmark-encode.png" alt="access benchmark"></p>
+				<p><em>(The x-axis scale shows the amount of fully encoded images per second.)</em></p>
+				<h3 id="pixel-access">Pixel Access</h3>
+				<p>The chart below shows the comparison of accessing all pixels in a decoded image between <a href="https://www.npmjs.com/package/pngjs">pngjs</a> and <strong>node-libpng</strong>.
+				The time to fully access every pixel in the raw data is measured (Higher is better).</p>
+				<p><img src="images/benchmark-access.png" alt="access benchmark"></p>
+				<p><em>(The x-axis scale shows the amount of fully accessed images per second.)</em></p>
 				<h2 id="contributing">Contributing</h2>
 				<p>Yarn is used instead of npm, so make sure it is installed, probably: <code>npm install -g yarn</code>.</p>
 				<p>Install all dependencies using</p>
@@ -103,6 +185,16 @@ yarn <span class="hljs-keyword">run</span><span class="bash">:server</span>
 </code></pre><p>Client:</p>
 				<pre><code>cd exmaple
 yarn <span class="hljs-keyword">run</span><span class="bash">:client</span>
+</code></pre><h3 id="generating-the-libpng-config">Generating the libpng config</h3>
+				<p>Libpng requires an OS specific configuration headerfile <code>pnglibconf.h</code>.
+				This can be generated by executing:</p>
+				<pre><code>git submodule update <span class="hljs-params">--init</span> <span class="hljs-params">--recursive</span>
+<span class="hljs-keyword">cd</span> deps/libpng
+mkdir build
+<span class="hljs-keyword">cd</span> build
+cmake <span class="hljs-string">..</span>
+make
+cp pnglibconf.h <span class="hljs-string">../../config/linux/</span>
 </code></pre><h2 id="contributors">Contributors</h2>
 				<ul>
 					<li>Frederick Gnodtke</li>
@@ -128,11 +220,20 @@ yarn <span class="hljs-keyword">run</span><span class="bash">:client</span>
 					<li class=" tsd-kind-class">
 						<a href="classes/pngimage.html" class="tsd-kind-icon">Png<wbr>Image</a>
 					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/encodeoptions.html" class="tsd-kind-icon">Encode<wbr>Options</a>
+					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#__native_pngimage" class="tsd-kind-icon">__native_<wbr><wbr>Png<wbr>Image</a>
 					</li>
 					<li class=" tsd-kind-variable">
+						<a href="globals.html#__native_encode" class="tsd-kind-icon">__native_<wbr>encode</a>
+					</li>
+					<li class=" tsd-kind-variable">
 						<a href="globals.html#__native_ispng" class="tsd-kind-icon">__native_<wbr>is<wbr>Png</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#encode" class="tsd-kind-icon">encode</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#ispng" class="tsd-kind-icon">is<wbr>Png</a>
