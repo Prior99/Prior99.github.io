@@ -1,9 +1,9 @@
 [submodule "repositories/hyrest"]
 	path = repositories/hyrest
-	url = git@github.com:Prior99/hyrest.git
+	url = https://github.com/Prior99/hyrest.git
 [submodule "repositories/node-libpng"]
 	path = repositories/node-libpng
-	url = git@github.com:Prior99/node-libpng.git
+	url = https://github.com/Prior99/node-libpng.git
 [submodule "repositories/test-decorators"]
 	path = repositories/test-decorators
-	url = git@github.com:Prior99/test-decorators.git
+	url = https://github.com/Prior99/test-decorators.git
