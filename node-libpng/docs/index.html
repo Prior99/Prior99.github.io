@@ -76,6 +76,23 @@
 					<li><a href="#node-libpng">node-libpng</a><ul>
 							<li><a href="#table-of-contents">Table of contents</a></li>
 							<li><a href="#supported-environments">Supported environments</a></li>
+							<li><a href="#usage">Usage</a><ul>
+									<li><a href="#reading-decoding">Reading (Decoding)</a><ul>
+											<li><a href="#reading-png-files-using-promises">Reading PNG files using Promises</a></li>
+											<li><a href="#reading-png-files-using-a-callback">Reading PNG files using a callback</a></li>
+											<li><a href="#reading-png-files-synchroneously">Reading PNG files synchroneously</a></li>
+											<li><a href="#decoding-a-buffer">Decoding a buffer</a><ul>
+													<li><a href="#writing-encoding">Writing (Encoding)</a></li>
+												</ul>
+											</li>
+											<li><a href="#writing-png-files-using-promises">Writing PNG files using Promises</a></li>
+											<li><a href="#writing-png-files-using-a-callback">Writing PNG files using a callback</a></li>
+											<li><a href="#writing-png-files-synchroneously">Writing PNG files synchroneously</a></li>
+											<li><a href="#encoding-into-a-buffer">Encoding into a Buffer</a></li>
+										</ul>
+									</li>
+								</ul>
+							</li>
 							<li><a href="#benchmark">Benchmark</a><ul>
 									<li><a href="#read-access-decoding">Read access (Decoding)</a></li>
 									<li><a href="#write-access-encoding">Write access (Encoding)</a></li>
@@ -83,10 +100,6 @@
 								</ul>
 							</li>
 							<li><a href="#contributing">Contributing</a><ul>
-									<li><a href="#building">Building</a></li>
-									<li><a href="#running-the-tests-with-coverage">Running the tests with coverage</a></li>
-									<li><a href="#linting">Linting</a></li>
-									<li><a href="#starting-the-example">Starting the example</a></li>
 									<li><a href="#generating-the-libpng-config">Generating the libpng config</a></li>
 								</ul>
 							</li>
@@ -150,6 +163,167 @@
 						</tr>
 					</tbody>
 				</table>
+				<h2 id="usage">Usage</h2>
+				<h3 id="reading-decoding-">Reading (Decoding)</h3>
+				<p>Multiple ways of reading and decoding PNG encoded images exist:</p>
+				<ul>
+					<li><a href="https://prior99.github.io/node-libpng/docs/globals.html#readpngfile">readPngFile</a> Reads a PNG file and returns a <a href="https://prior99.github.io/node-libpng/docs/classes/pngimage.html">PngImage</a> instance with the decoded data.<ul>
+							<li>The function can take an optional argument for using a node-style callback API. <a href="#reading-png-files-using-a-callback">Example</a></li>
+							<li>The function will return a Promise when not providing a callback. <a href="#reading-png-files-using-promises">Example</a></li>
+						</ul>
+					</li>
+					<li><a href="https://prior99.github.io/node-libpng/docs/globals.html#readpngfilesync">readPngFileSync</a> Will read a PNG file synchroneously and return a <a href="https://prior99.github.io/node-libpng/docs/classes/pngimage.html">PngImage</a> instance with the decoded image. <a href="#reading-png-files-synchroneously">Example</a></li>
+					<li><a href="https://prior99.github.io/node-libpng/docs/globals.html#decode">decode</a> Will decode a Buffer of raw PNG file data and return a <a href="https://prior99.github.io/node-libpng/docs/classes/pngimage.html">PngImage</a> instance. <a href="#decoding-a-buffer">Example</a></li>
+				</ul>
+				<h4 id="reading-png-files-using-promises">Reading PNG files using Promises</h4>
+				<p>In order to use the Promise-based API, simply omit the third argument.</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { readPngFile } <span class="hljs-keyword">from</span> <span class="hljs-string">"node-libpng"</span>;
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">readMyFile</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">const</span> image = <span class="hljs-keyword">await</span> readPngFile(<span class="hljs-string">"path/to/image.png"</span>);
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Reading was successful. The dimensions of the image are <span class="hljs-subst">${image.width}</span>x<span class="hljs-subst">${image.height}</span>.`</span>);
+}
+</code></pre>
+				<p>If an error occured while reading the file or decoding the buffer, the Promise which <code>writePngFile</code> returns will reject with the error.</p>
+				<h4 id="reading-png-files-using-a-callback">Reading PNG files using a callback</h4>
+				<p>In order to use the callback-based API, simply provide a callback as the third argument.</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { readPngFile } <span class="hljs-keyword">from</span> <span class="hljs-string">"node-libpng"</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">readMyFile</span>(<span class="hljs-params"></span>) </span>{
+    readPngFile(<span class="hljs-string">"path/to/image.png"</span>, <span class="hljs-function">(<span class="hljs-params">error, image</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span> (error !== <span class="hljs-literal">null</span>) {
+            <span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> Check what `error` contains.</span>
+        }
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Reading was successful. The dimensions of the image are <span class="hljs-subst">${image.width}</span>x<span class="hljs-subst">${image.height}</span>.`</span>);
+    });
+}
+</code></pre>
+				<p>If an error occured while reading the file or decoding the buffer, it will be passed as the first argument to the callback.
+					Otherwise <code>null</code> will be passed. The <a href="https://prior99.github.io/node-libpng/docs/classes/pngimage.html">PngImage</a> instance will be passed as the second argument. If an error occured,
+				it will be <code>undefined</code>.</p>
+				<h4 id="reading-png-files-synchroneously">Reading PNG files synchroneously</h4>
+				<p>It is possible to read the image from the disk in a blocking way, using Node&#39;s <code>readFileSync</code>:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { readPngFileSync } <span class="hljs-keyword">from</span> <span class="hljs-string">"node-libpng"</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">readMyFile</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">const</span> image = readPngFileSync(<span class="hljs-string">"path/to/image.png"</span>);
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Reading was successful. The dimensions of the image are <span class="hljs-subst">${image.width}</span>x<span class="hljs-subst">${image.height}</span>.`</span>);
+}
+</code></pre>
+				<p>If an error occured while reading the file or decoding the buffer, it will be <code>throw</code>n.</p>
+				<h4 id="decoding-a-buffer">Decoding a buffer</h4>
+				<p>Buffers can be decoded directly into a <a href="https://prior99.github.io/node-libpng/docs/classes/pngimage.html">PngImage</a> instance:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { decode } <span class="hljs-keyword">from</span> <span class="hljs-string">"node-libpng"</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">decodeMyBuffer</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">const</span> buffer = ...; <span class="hljs-comment">// Some buffer containing the raw PNG file's data.</span>
+    <span class="hljs-keyword">const</span> image = decode(buffer);
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Decoding was successful. The dimensions of the image are <span class="hljs-subst">${image.width}</span>x<span class="hljs-subst">${image.height}</span>.`</span>);
+}
+</code></pre>
+				<p>If an error occured while decoding the buffer, it will be <code>throw</code>n.
+				The decoding happens synchroneously.</p>
+				<h3 id="writing-encoding-">Writing (Encoding)</h3>
+				<p>Multiple ways for encoding and writing raw image data exist:</p>
+				<ul>
+					<li><a href="https://prior99.github.io/node-libpng/docs/globals.html#writepngfile">writePngFile</a> Writes the raw data into a PNG file using Promises or a callback.<ul>
+							<li>The function can take an optional argument for using a node-style callback API. <a href="#writing-png-files-using-a-callback">Example</a></li>
+							<li>The function will return a Promise when not providing a callback. <a href="#writing-png-files-using-promises">Example</a></li>
+						</ul>
+					</li>
+					<li><a href="https://prior99.github.io/node-libpng/docs/globals.html#writepngfilesync">writePngFileSync</a> Writes the raw data into a PNG file synchroneously. <a href="#writing-png-files-synchroneously">Example</a></li>
+					<li><a href="https://prior99.github.io/node-libpng/docs/globals.html#encode">encode</a> Encodes the raw data into a Buffer containing the PNG file&#39;s data. <a href="#encoding-into-a-buffer">Example</a></li>
+					<li><a href="https://prior99.github.io/node-libpng/docs/classes/pngimage.html">PngImage</a> contains methods for encoding and writing modified image data:<ul>
+							<li><a href="https://prior99.github.io/node-libpng/docs/classes/pngimage.html#encode">PngImage.encode</a> The same as calling the free function <a href="">encode</a> with <code>PngImage.data</code>.</li>
+							<li><a href="https://prior99.github.io/node-libpng/docs/classes/pngimage.html#write">PngImage.write</a> The same as calling the free function <a href="">writePngFile</a> with <code>PngImage.data</code>.</li>
+							<li><a href="https://prior99.github.io/node-libpng/docs/classes/pngimage.html#writesync">PngImage.writeSync</a> The same as calling the free function <a href="">writePngFileSync</a> with <code>PngImage.data</code>.</li>
+						</ul>
+					</li>
+				</ul>
+				<h4 id="writing-png-files-using-promises">Writing PNG files using Promises</h4>
+				<p>In order to use the Promise-based API, simply omit the 4th argument.</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { writePngFile } <span class="hljs-keyword">from</span> <span class="hljs-string">"node-libpng"</span>;
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">writeMyFile</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-comment">// Let's write a 100x60 pixel PNG file with no alpha channel.</span>
+    <span class="hljs-keyword">const</span> imageData = Buffer.alloc(<span class="hljs-number">100</span> * <span class="hljs-number">60</span> * <span class="hljs-number">3</span>);
+    <span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> Manipulate the image data somehow.</span>
+    <span class="hljs-keyword">const</span> options = {
+        width: <span class="hljs-number">100</span>,
+        height: <span class="hljs-number">60</span>,
+        alpha: <span class="hljs-literal">false</span>
+    };
+    <span class="hljs-keyword">await</span> writePngFile(<span class="hljs-string">"path/to/image.png"</span>, imageData, options);
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"File successfully written."</span>);
+}
+</code></pre>
+				<p>In this example, a 100x60 pixel image with no alpha channel will be encoded and written to disk.</p>
+				<p>It is possible to omit either <code>width</code> or <code>height</code> from the options.</p>
+				<p>If an error occured while writing the file or encoding the buffer, the Promise which <code>writePngFile</code> returns will
+				reject with the error.</p>
+				<h4 id="writing-png-files-using-a-callback">Writing PNG files using a callback</h4>
+				<p>In order to use the callback-based API, provide a callback as the 4th argument.</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { writePngFile } <span class="hljs-keyword">from</span> <span class="hljs-string">"node-libpng"</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">writeMyFile</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-comment">// Let's write a 100x60 pixel PNG file with no alpha channel.</span>
+    <span class="hljs-keyword">const</span> imageData = Buffer.alloc(<span class="hljs-number">100</span> * <span class="hljs-number">60</span> * <span class="hljs-number">3</span>);
+    <span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> Manipulate the image data somehow.</span>
+    <span class="hljs-keyword">const</span> options = {
+        width: <span class="hljs-number">100</span>,
+        height: <span class="hljs-number">60</span>,
+        alpha: <span class="hljs-literal">false</span>
+    };
+    <span class="hljs-keyword">await</span> writePngFile(<span class="hljs-string">"path/to/image.png"</span>, imageData, options, <span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span> (error !== <span class="hljs-literal">null</span>) {
+            <span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> Check what `error` contains.</span>
+        }
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"File successfully written."</span>);
+    });
+}
+</code></pre>
+				<p>In this example, a 100x60 pixel image with no alpha channel will be encoded and written to disk.</p>
+				<p>It is possible to omit either <code>width</code> or <code>height</code> from the options.</p>
+				<p>If an error occured while writing the file or encoding the buffer, it will be passed as the first and only argument
+				in the callback. Otherwise <code>null</code> will be passed.</p>
+				<h4 id="writing-png-files-synchroneously">Writing PNG files synchroneously</h4>
+				<p>It is possible to write the image to disk in a blocking way, using Node&#39;s <code>writeFileSync</code>:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { writePngFileSync } <span class="hljs-keyword">from</span> <span class="hljs-string">"node-libpng"</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">writeMyFile</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-comment">// Let's write a 100x60 pixel PNG file with no alpha channel.</span>
+    <span class="hljs-keyword">const</span> imageData = Buffer.alloc(<span class="hljs-number">100</span> * <span class="hljs-number">60</span> * <span class="hljs-number">3</span>);
+    <span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> Manipulate the image data somehow.</span>
+    <span class="hljs-keyword">const</span> options = {
+        width: <span class="hljs-number">100</span>,
+        height: <span class="hljs-number">60</span>,
+        alpha: <span class="hljs-literal">false</span>
+    };
+    writePngFileSync(<span class="hljs-string">"path/to/image.png"</span>, imageData, options);
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"File successfully written."</span>);
+}
+</code></pre>
+				<p>In this example, a 100x60 pixel image with no alpha channel will be encoded and written to disk.</p>
+				<p>It is possible to omit either <code>width</code> or <code>height</code> from the options.</p>
+				<p>If an error occured while writing the file or encoding the buffer, it will be <code>throw</code>n.</p>
+				<h4 id="encoding-into-a-buffer">Encoding into a Buffer</h4>
+				<p>Buffers can be encoded directly from a buffer containing the raw pixel data:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { encode } <span class="hljs-keyword">from</span> <span class="hljs-string">"node-libpng"</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">encodeMyBuffer</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">const</span> buffer = ...; <span class="hljs-comment">// Some buffer containing the raw pixel data.</span>
+    <span class="hljs-keyword">const</span> options = {
+        width: <span class="hljs-number">100</span>,
+        height: <span class="hljs-number">100</span>,
+        alpha: <span class="hljs-literal">false</span>
+    };
+    <span class="hljs-keyword">const</span> encodedPngData = encode(buffer);
+    <span class="hljs-comment">// The Buffer `encodedPngData` now contains the raw PNG-encoded data.</span>
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"File successfully encoded."</span>);
+}
+</code></pre>
+				<p>If an error occured while encoding the buffer, it will be <code>throw</code>n.
+				The encoding happens synchroneously.</p>
 				<h2 id="benchmark">Benchmark</h2>
 				<p>As it is a native addon, <strong>node-libpng</strong> is much faster than libraries like <a href="https://www.npmjs.com/package/pngjs">pngjs</a>:</p>
 				<h3 id="read-access-decoding-">Read access (Decoding)</h3>
@@ -169,23 +343,11 @@
 				<p><em>(The x-axis scale shows the amount of fully accessed images per second.)</em></p>
 				<h2 id="contributing">Contributing</h2>
 				<p>Yarn is used instead of npm, so make sure it is installed, probably: <code>npm install -g yarn</code>.</p>
-				<p>Install all dependencies using</p>
-				<pre><code>yarn <span class="hljs-keyword">install</span>
-</code></pre><h3 id="building">Building</h3>
-				<p>In order to build the code:</p>
-				<pre><code><span class="hljs-attribute">yarn build</span>
-</code></pre><h3 id="running-the-tests-with-coverage">Running the tests with coverage</h3>
-				<pre><code>yarn <span class="hljs-built_in">test</span>
-</code></pre><h3 id="linting">Linting</h3>
-				<pre><code><span class="hljs-attribute">yarn lint</span>
-</code></pre><h3 id="starting-the-example">Starting the example</h3>
-				<p>Server:</p>
-				<pre><code>cd exmaple
-yarn <span class="hljs-keyword">run</span><span class="bash">:server</span>
-</code></pre><p>Client:</p>
-				<pre><code>cd exmaple
-yarn <span class="hljs-keyword">run</span><span class="bash">:client</span>
-</code></pre><h3 id="generating-the-libpng-config">Generating the libpng config</h3>
+				<p>Generally, it should be enough to just run:</p>
+				<pre><code><span class="hljs-attribute">make</span>
+</code></pre><p>which will install all node dependencies, compile the dependencies and C++ code,
+				compile typescript, execute all test, lint the sources and build the docs.</p>
+				<h3 id="generating-the-libpng-config">Generating the libpng config</h3>
 				<p>Libpng requires an OS specific configuration headerfile <code>pnglibconf.h</code>.
 				This can be generated by executing:</p>
 				<pre><code>git submodule update <span class="hljs-params">--init</span> <span class="hljs-params">--recursive</span>
@@ -224,16 +386,31 @@ cp pnglibconf.h <span class="hljs-string">../../config/linux/</span>
 						<a href="interfaces/encodeoptions.html" class="tsd-kind-icon">Encode<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#colorgrayscale" class="tsd-kind-icon">Color<wbr>Gray<wbr>Scale</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#colorgrayscalealpha" class="tsd-kind-icon">Color<wbr>Gray<wbr>Scale<wbr>Alpha</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#colorpalette" class="tsd-kind-icon">Color<wbr>Palette</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#colorrgb" class="tsd-kind-icon">ColorRGB</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#colorrgba" class="tsd-kind-icon">ColorRGBA</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#palette" class="tsd-kind-icon">Palette</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#readpngfilecallback" class="tsd-kind-icon">Read<wbr>Png<wbr>File<wbr>Callback</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#writepngfilecallback" class="tsd-kind-icon">Write<wbr>Png<wbr>File<wbr>Callback</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#xy" class="tsd-kind-icon">XY</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#__native_pngimage" class="tsd-kind-icon">__native_<wbr><wbr>Png<wbr>Image</a>
@@ -243,6 +420,36 @@ cp pnglibconf.h <span class="hljs-string">../../config/linux/</span>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#__native_ispng" class="tsd-kind-icon">__native_<wbr>is<wbr>Png</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#colorgrayscale" class="tsd-kind-icon">color<wbr>Gray<wbr>Scale</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#colorgrayscalealpha" class="tsd-kind-icon">color<wbr>Gray<wbr>Scale<wbr>Alpha</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#colorpalette" class="tsd-kind-icon">color<wbr>Palette</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#colorrgb" class="tsd-kind-icon">colorRGB</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#colorrgba" class="tsd-kind-icon">colorRGBA</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#convertgrayscalealphatorgba" class="tsd-kind-icon">convert<wbr>Gray<wbr>Scale<wbr>Alpha<wbr>ToRGBA</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#convertgrayscaletorgba" class="tsd-kind-icon">convert<wbr>Gray<wbr>Scale<wbr>ToRGBA</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#convertpalettetorgba" class="tsd-kind-icon">convert<wbr>Palette<wbr>ToRGBA</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#convertrgbtorgba" class="tsd-kind-icon">convertRGBToRGBA</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#converttorgba" class="tsd-kind-icon">convert<wbr>ToRGBA</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#decode" class="tsd-kind-icon">decode</a>
@@ -257,7 +464,25 @@ cp pnglibconf.h <span class="hljs-string">../../config/linux/</span>
 						<a href="globals.html#expectredbluegradient" class="tsd-kind-icon">expect<wbr>Red<wbr>Blue<wbr>Gradient</a>
 					</li>
 					<li class=" tsd-kind-function">
+						<a href="globals.html#iscolorgrayscale" class="tsd-kind-icon">is<wbr>Color<wbr>Gray<wbr>Scale</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#iscolorgrayscalealpha" class="tsd-kind-icon">is<wbr>Color<wbr>Gray<wbr>Scale<wbr>Alpha</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#iscolorpalette" class="tsd-kind-icon">is<wbr>Color<wbr>Palette</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#iscolorrgb" class="tsd-kind-icon">is<wbr>ColorRGB</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#iscolorrgba" class="tsd-kind-icon">is<wbr>ColorRGBA</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#ispng" class="tsd-kind-icon">is<wbr>Png</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#isxy" class="tsd-kind-icon">isXY</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#readpngfile" class="tsd-kind-icon">read<wbr>Png<wbr>File</a>
@@ -270,6 +495,9 @@ cp pnglibconf.h <span class="hljs-string">../../config/linux/</span>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#writepngfilesync" class="tsd-kind-icon">write<wbr>Png<wbr>File<wbr>Sync</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#xy" class="tsd-kind-icon">xy</a>
 					</li>
 				</ul>
 			</nav>
