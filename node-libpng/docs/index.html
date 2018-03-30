@@ -88,7 +88,12 @@
 											<li><a href="#writing-png-files-using-promises">Writing PNG files using Promises</a></li>
 											<li><a href="#writing-png-files-using-a-callback">Writing PNG files using a callback</a></li>
 											<li><a href="#writing-png-files-synchroneously">Writing PNG files synchroneously</a></li>
-											<li><a href="#encoding-into-a-buffer">Encoding into a Buffer</a></li>
+											<li><a href="#encoding-into-a-buffer">Encoding into a Buffer</a><ul>
+													<li><a href="#accessing-the-pixels">Accessing the pixels</a></li>
+												</ul>
+											</li>
+											<li><a href="#accessing-in-the-images-color-format">Accessing in the image&#39;s color format</a></li>
+											<li><a href="#accessing-in-rgba-format">Accessing in rgba format</a></li>
 										</ul>
 									</li>
 								</ul>
@@ -324,6 +329,49 @@
 </code></pre>
 				<p>If an error occured while encoding the buffer, it will be <code>throw</code>n.
 				The encoding happens synchroneously.</p>
+				<h3 id="accessing-the-pixels">Accessing the pixels</h3>
+				<p>PNG specifies five different types of colors:</p>
+				<ul>
+					<li><a href="https://prior99.github.io/node-libpng/docs/enums/colortype.html#gray_scale">Gray Scale</a></li>
+					<li><a href="https://prior99.github.io/node-libpng/docs/enums/colortype.html#gray_scale_alpha">Gray Scale with Alpha channel</a></li>
+					<li><a href="https://prior99.github.io/node-libpng/docs/enums/colortype.html#palette">Palette (Indexed)</a></li>
+					<li><a href="https://prior99.github.io/node-libpng/docs/enums/colortype.html#rgb">RGB</a></li>
+					<li><a href="https://prior99.github.io/node-libpng/docs/enums/colortype.html#rgba">RGB with Alpha channel</a></li>
+				</ul>
+				<p>In the <a href="https://prior99.github.io/node-libpng/docs/classes/pngimage.html#data">PngImage.data</a> buffer the colors are stored
+					the way they were encoded in the PNG image. This library provides utilities for accessing the pixels in both the native format
+				as well as rgba format.</p>
+				<h4 id="accessing-in-the-image-s-color-format">Accessing in the image&#39;s color format</h4>
+				<p>In order to retrieve the color in the image&#39;s native format at a given position <a href="https://prior99.github.io/node-libpng/docs/classes/pngimage.html#at">PngImage.at</a>
+				can be used.</p>
+				<h5 id="example-for-a-gray-scale-image">Example for a gray scale image</h5>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { readPngFileSync } <span class="hljs-keyword">from</span> <span class="hljs-string">"node-libpng"</span>;
+
+<span class="hljs-keyword">const</span> image = readPngFileSync(<span class="hljs-string">"path/to/grayscale-image.png"</span>);
+<span class="hljs-keyword">const</span> color = image.at(<span class="hljs-number">10</span>, <span class="hljs-number">10</span>);
+<span class="hljs-keyword">const</span> colorType = image.colorType;
+<span class="hljs-comment">// Will log: "The color type of the image is gray-scale. Pixel at 10,10 is of color 168."</span>
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`The color type of the image is <span class="hljs-subst">${colorType}</span>. Pixel at 10,10 is of color <span class="hljs-subst">${color.join(", ")}</span>.`</span>);
+</code></pre>
+				<h5 id="example-for-a-rgb-image-">Example for a rgb image:</h5>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> image = readPngFileSync(<span class="hljs-string">"path/to/rgb-image.png"</span>);
+<span class="hljs-keyword">const</span> color = image.at(<span class="hljs-number">10</span>, <span class="hljs-number">10</span>);
+<span class="hljs-keyword">const</span> colorType = image.colorType;
+<span class="hljs-comment">// Will log: "The color type of the image is rgb. Pixel at 10,10 is of color 100, 150, 200."</span>
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`The color type of the image is <span class="hljs-subst">${colorType}</span>. Pixel at 10,10 is of color <span class="hljs-subst">${color.join(", ")}</span>.`</span>);
+</code></pre>
+				<p>Dealing with all of these different color formats can be quite irritating. A set of conversion utilities as for example
+				a utility for converting any color format to rgba (<a href="https://prior99.github.io/node-libpng/docs/globals.html#converttorgba">convertToRGBA</a>) exist.</p>
+				<p><a href="#accessing-in-rgba-format">It is also possible to do this automatically</a>.</p>
+				<h4 id="accessing-in-rgba-format">Accessing in rgba format</h4>
+				<p>A method for retrieving the automatically converted color exists: <a href="https://prior99.github.io/node-libpng/docs/classes/pngimage.html#rgbaat">PngImage.rgbaAt</a>.</p>
+				<p>It will convert any color into rgba format. Unlike <a href="https://www.npmjs.com/package/pngjs#pngjs">other implementations</a>, all color formats are supported.</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> image = readPngFileSync(<span class="hljs-string">"path/to/any-color-format-image.png"</span>);
+<span class="hljs-keyword">const</span> color = image.rgbaAt(<span class="hljs-number">10</span>, <span class="hljs-number">10</span>);
+<span class="hljs-keyword">const</span> colorType = image.colorType;
+<span class="hljs-comment">// Will log: "The color type of the image is palette. Pixel at 10,10 is of color 100, 150, 200, 255."</span>
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`The color type of the image is <span class="hljs-subst">${colorType}</span>. Pixel at 10,10 is of color <span class="hljs-subst">${color.join(", ")}</span>.`</span>);
+</code></pre>
 				<h2 id="benchmark">Benchmark</h2>
 				<p>As it is a native addon, <strong>node-libpng</strong> is much faster than libraries like <a href="https://www.npmjs.com/package/pngjs">pngjs</a>:</p>
 				<h3 id="read-access-decoding-">Read access (Decoding)</h3>
@@ -385,11 +433,20 @@ cp pnglibconf.h <span class="hljs-string">../../config/linux/</span>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/encodeoptions.html" class="tsd-kind-icon">Encode<wbr>Options</a>
 					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resizecanvasarguments.html" class="tsd-kind-icon">Resize<wbr>Canvas<wbr>Arguments</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#colorany" class="tsd-kind-icon">Color<wbr>Any</a>
+					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#colorgrayscale" class="tsd-kind-icon">Color<wbr>Gray<wbr>Scale</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#colorgrayscalealpha" class="tsd-kind-icon">Color<wbr>Gray<wbr>Scale<wbr>Alpha</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#colornoalpha" class="tsd-kind-icon">Color<wbr>NoAlpha</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#colorpalette" class="tsd-kind-icon">Color<wbr>Palette</a>
@@ -407,6 +464,9 @@ cp pnglibconf.h <span class="hljs-string">../../config/linux/</span>
 						<a href="globals.html#readpngfilecallback" class="tsd-kind-icon">Read<wbr>Png<wbr>File<wbr>Callback</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#rect" class="tsd-kind-icon">Rect</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#writepngfilecallback" class="tsd-kind-icon">Write<wbr>Png<wbr>File<wbr>Callback</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
@@ -416,10 +476,16 @@ cp pnglibconf.h <span class="hljs-string">../../config/linux/</span>
 						<a href="globals.html#__native_pngimage" class="tsd-kind-icon">__native_<wbr><wbr>Png<wbr>Image</a>
 					</li>
 					<li class=" tsd-kind-variable">
+						<a href="globals.html#__native_copy" class="tsd-kind-icon">__native_<wbr>copy</a>
+					</li>
+					<li class=" tsd-kind-variable">
 						<a href="globals.html#__native_encode" class="tsd-kind-icon">__native_<wbr>encode</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#__native_ispng" class="tsd-kind-icon">__native_<wbr>is<wbr>Png</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#__native_resize" class="tsd-kind-icon">__native_<wbr>resize</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#colorgrayscale" class="tsd-kind-icon">color<wbr>Gray<wbr>Scale</a>
@@ -437,10 +503,22 @@ cp pnglibconf.h <span class="hljs-string">../../config/linux/</span>
 						<a href="globals.html#colorrgba" class="tsd-kind-icon">colorRGBA</a>
 					</li>
 					<li class=" tsd-kind-function">
+						<a href="globals.html#colortypetocolorchecker" class="tsd-kind-icon">color<wbr>Type<wbr>ToColor<wbr>Checker</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#convertgrayscalealphatorgba" class="tsd-kind-icon">convert<wbr>Gray<wbr>Scale<wbr>Alpha<wbr>ToRGBA</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#convertgrayscaletorgba" class="tsd-kind-icon">convert<wbr>Gray<wbr>Scale<wbr>ToRGBA</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#convertnativebackgroundcolor" class="tsd-kind-icon">convert<wbr>Native<wbr>Background<wbr>Color</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#convertnativepalette" class="tsd-kind-icon">convert<wbr>Native<wbr>Palette</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#convertnativetime" class="tsd-kind-icon">convert<wbr>Native<wbr>Time</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#convertpalettetorgba" class="tsd-kind-icon">convert<wbr>Palette<wbr>ToRGBA</a>
@@ -453,6 +531,9 @@ cp pnglibconf.h <span class="hljs-string">../../config/linux/</span>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#decode" class="tsd-kind-icon">decode</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#defaultbackgroundcolor" class="tsd-kind-icon">default<wbr>Background<wbr>Color</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#encode" class="tsd-kind-icon">encode</a>
@@ -482,6 +563,9 @@ cp pnglibconf.h <span class="hljs-string">../../config/linux/</span>
 						<a href="globals.html#ispng" class="tsd-kind-icon">is<wbr>Png</a>
 					</li>
 					<li class=" tsd-kind-function">
+						<a href="globals.html#isrect" class="tsd-kind-icon">is<wbr>Rect</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#isxy" class="tsd-kind-icon">isXY</a>
 					</li>
 					<li class=" tsd-kind-function">
@@ -489,6 +573,9 @@ cp pnglibconf.h <span class="hljs-string">../../config/linux/</span>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#readpngfilesync" class="tsd-kind-icon">read<wbr>Png<wbr>File<wbr>Sync</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#rect" class="tsd-kind-icon">rect</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#writepngfile" class="tsd-kind-icon">write<wbr>Png<wbr>File</a>
