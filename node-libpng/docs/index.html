@@ -93,7 +93,13 @@
 												</ul>
 											</li>
 											<li><a href="#accessing-in-the-images-color-format">Accessing in the image&#39;s color format</a></li>
-											<li><a href="#accessing-in-rgba-format">Accessing in rgba format</a></li>
+											<li><a href="#accessing-in-rgba-format">Accessing in rgba format</a><ul>
+													<li><a href="#modifying-the-image">Modifying the image</a></li>
+												</ul>
+											</li>
+											<li><a href="#cropping">Cropping</a></li>
+											<li><a href="#resizing-the-canvas">Resizing the canvas</a></li>
+											<li><a href="#copying-an-image-into-another-image">Copying an image into another image</a></li>
 										</ul>
 									</li>
 								</ul>
@@ -372,6 +378,53 @@
 <span class="hljs-comment">// Will log: "The color type of the image is palette. Pixel at 10,10 is of color 100, 150, 200, 255."</span>
 <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`The color type of the image is <span class="hljs-subst">${colorType}</span>. Pixel at 10,10 is of color <span class="hljs-subst">${color.join(", ")}</span>.`</span>);
 </code></pre>
+				<h3 id="modifying-the-image">Modifying the image</h3>
+				<p>Several basic utilities for modifying an image exist.</p>
+				<h4 id="cropping">Cropping</h4>
+				<p>A simple utility for cropping an image to a sub-rectangle exists: <a href="https://prior99.github.io/node-libpng/docs/classes/pngimage.html#crop">PngImage.crop</a>. It&#39;s a simplified version of <a href="https://prior99.github.io/node-libpng/docs/classes/pngimage.html#resizecanvas">PngImage.resizeCanvas</a>.</p>
+				<p>It will reduce the image in-place to the specified rectangle:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { readPngFileSync, rect } <span class="hljs-keyword">from</span> <span class="hljs-string">"node-libpng"</span>;
+
+<span class="hljs-keyword">const</span> image = readPngFileSync(<span class="hljs-string">"path/to/image.png"</span>);
+image.crop(rect(<span class="hljs-number">10</span>, <span class="hljs-number">10</span>, <span class="hljs-number">100</span>, <span class="hljs-number">100</span>));
+<span class="hljs-comment">// Will log: "New dimensions: 100x100".</span>
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`New dimensions: <span class="hljs-subst">${image.width}</span>x<span class="hljs-subst">${image.height}</span>.`</span>);
+</code></pre>
+				<h4 id="resizing-the-canvas">Resizing the canvas</h4>
+				<p>Use <a href="https://prior99.github.io/node-libpng/docs/classes/pngimage.html#resizecanvas">PngImage.resizeCanvas</a> for advanced cropping operations.</p>
+				<p>Take a look at <a href="https://prior99.github.io/node-libpng/docs/interfaces/resizecanvasarguments.html">ResizeCanvasArguments</a>.</p>
+				<p>It takes a configuration object which makes it possible to provide:</p>
+				<ul>
+					<li>An offset to the top left (a padding).</li>
+					<li>A fill color for uncovered regions.</li>
+					<li>A subrectangle of the image to use.</li>
+					<li>The new dimensions for the image.</li>
+				</ul>
+				<p>In the following example, a 10 pixel margin is applied to the top and to the left and a 50x50 pixel area is copied from the image at offset 20,20.
+				The image is resized to 100x100, so a 40 pixel margin will exist to the right and to the bottom. The background is filled in red:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { readPngFileSync, rect, xy, colorRGB } <span class="hljs-keyword">from</span> <span class="hljs-string">"node-libpng"</span>;
+
+<span class="hljs-keyword">const</span> image = readPngFileSync(<span class="hljs-string">"path/to/image.png"</span>);
+image.resizeCanvas({
+    offset: xy(<span class="hljs-number">10</span>, <span class="hljs-number">10</span>),
+    clip: rect(<span class="hljs-number">20</span>, <span class="hljs-number">20</span>, <span class="hljs-number">50</span>, <span class="hljs-number">50</span>),
+    dimensions: xy(<span class="hljs-number">100</span>, <span class="hljs-number">100</span>),
+    fillColor: colorRGB(<span class="hljs-number">255</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>),
+});
+<span class="hljs-comment">// Will log: "New dimensions: 100x100".</span>
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`New dimensions: <span class="hljs-subst">${image.width}</span>x<span class="hljs-subst">${image.height}</span>.`</span>);
+</code></pre>
+				<h4 id="copying-an-image-into-another-image">Copying an image into another image</h4>
+				<p>Use <a href="https://prior99.github.io/node-libpng/docs/classes/pngimage.html#copyfrom">PngImage.copyFrom</a> to copy an area of one image into another one:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { readPngFileSync, xy, rect } <span class="hljs-keyword">from</span> <span class="hljs-string">"node-libpng"</span>;
+
+<span class="hljs-keyword">const</span> source = readPngFileSync(<span class="hljs-string">"path/to/source-image.png"</span>);
+<span class="hljs-keyword">const</span> target = readPngFileSync(<span class="hljs-string">"path/to/target-image.png"</span>);
+
+target.copyFrom(source, xy(<span class="hljs-number">10</span>, <span class="hljs-number">10</span>), rect(<span class="hljs-number">100</span>, <span class="hljs-number">100</span>, <span class="hljs-number">50</span>, <span class="hljs-number">50</span>));
+</code></pre>
+				<p>The above example will copy a 50x50 rectangle from the source image at position 100,100 to the target image at position 10,10.
+				The offset and the subrectangle can be omitted to copy the whole source image to the top left corner of the target image.</p>
 				<h2 id="benchmark">Benchmark</h2>
 				<p>As it is a native addon, <strong>node-libpng</strong> is much faster than libraries like <a href="https://www.npmjs.com/package/pngjs">pngjs</a>:</p>
 				<h3 id="read-access-decoding-">Read access (Decoding)</h3>
@@ -480,6 +533,9 @@ cp pnglibconf.h <span class="hljs-string">../../config/linux/</span>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#__native_encode" class="tsd-kind-icon">__native_<wbr>encode</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#__native_fill" class="tsd-kind-icon">__native_<wbr>fill</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#__native_ispng" class="tsd-kind-icon">__native_<wbr>is<wbr>Png</a>
