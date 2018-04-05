@@ -7,3 +7,6 @@
 [submodule "repositories/test-decorators"]
 	path = repositories/test-decorators
 	url = https://github.com/Prior99/test-decorators.git
+[submodule "repositories/native-image-diff"]
+	path = repositories/native-image-diff
+	url = https://github.com/Prior99/native-image-diff.git
