@@ -1,8 +1,16 @@
-default: hyrest node-libpng test-decorators
+default: native-image-diff hyrest node-libpng test-decorators
 
 .PHONY: submodules
 submodules:
 	git submodule update --init --recursive --remote
+
+.PHONY: native-image-diff
+native-image-diff: submodules
+	make -C repositories/native-image-diff/ docs
+	rm -rf native-image-diff/docs
+	cp -r repositories/native-image-diff/docs native-image-diff/docs
+	git add native-image-diff
+	git commit -m "Update documentation for native-image-diff"
 
 .PHONY: hyrest
 hyrest: submodules
