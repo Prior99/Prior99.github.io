@@ -100,6 +100,8 @@
 											<li><a href="#cropping">Cropping</a></li>
 											<li><a href="#resizing-the-canvas">Resizing the canvas</a></li>
 											<li><a href="#copying-an-image-into-another-image">Copying an image into another image</a></li>
+											<li><a href="#filling-an-area-with-a-specified-color">Filling an area with a specified color</a></li>
+											<li><a href="#setting-a-single-pixel">Setting a single pixel</a></li>
 										</ul>
 									</li>
 								</ul>
@@ -425,6 +427,22 @@ target.copyFrom(source, xy(<span class="hljs-number">10</span>, <span class="hlj
 </code></pre>
 				<p>The above example will copy a 50x50 rectangle from the source image at position 100,100 to the target image at position 10,10.
 				The offset and the subrectangle can be omitted to copy the whole source image to the top left corner of the target image.</p>
+				<h4 id="filling-an-area-with-a-specified-color">Filling an area with a specified color</h4>
+				<p>Use <a href="https://prior99.github.io/node-libpng/docs/classes/pngimage.html#fill">PngImage.fill</a> to fill an area with a specified color:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { readPngFileSync, colorRGB, rect } <span class="hljs-keyword">from</span> <span class="hljs-string">"node-libpng"</span>;
+
+<span class="hljs-keyword">const</span> image = readPngFileSync(<span class="hljs-string">"path/to/source-image.png"</span>);
+<span class="hljs-comment">// Change a 100x100 pixel area at offset 10,10 to red:</span>
+image.fill(colorRGB(<span class="hljs-number">255</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>), rect(<span class="hljs-number">10</span>, <span class="hljs-number">10</span>, <span class="hljs-number">100</span>, <span class="hljs-number">100</span>));
+</code></pre>
+				<h4 id="setting-a-single-pixel">Setting a single pixel</h4>
+				<p>With <a href="https://prior99.github.io/node-libpng/docs/classes/pngimage.html#set">PngImage.set</a> an individual pixel&#39;s color can be changed:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { readPngFileSync, colorRGB, xy } <span class="hljs-keyword">from</span> <span class="hljs-string">"node-libpng"</span>;
+
+<span class="hljs-keyword">const</span> image = readPngFileSync(<span class="hljs-string">"path/to/source-image.png"</span>);
+<span class="hljs-comment">// Change the pixel at 10,10 to red:</span>
+image.set(colorRGB(<span class="hljs-number">255</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>), xy(<span class="hljs-number">10</span>, <span class="hljs-number">10</span>));
+</code></pre>
 				<h2 id="benchmark">Benchmark</h2>
 				<p>As it is a native addon, <strong>node-libpng</strong> is much faster than libraries like <a href="https://www.npmjs.com/package/pngjs">pngjs</a>:</p>
 				<h3 id="read-access-decoding-">Read access (Decoding)</h3>
