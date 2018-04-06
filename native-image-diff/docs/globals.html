@@ -102,7 +102,7 @@
 					<div class="tsd-signature tsd-kind-icon">__native_<wbr>image<wbr>Diff<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Prior99/native-image-diff/blob/72a3982/src/native.ts#L12">native.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/Prior99/native-image-diff/blob/6f60ac7/src/native.ts#L12">native.ts:12</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -113,13 +113,14 @@
 					<a name="diffimages" class="tsd-anchor"></a>
 					<h3>diff<wbr>Images</h3>
 					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">diff<wbr>Images<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interfaces/diffresult.html" class="tsd-signature-type">DiffResult</a></li>
+						<li class="tsd-signature tsd-kind-icon">diff<wbr>Images<span class="tsd-signature-symbol">(</span>args<span class="tsd-signature-symbol">: </span><a href="interfaces/diffimagesarguments.html" class="tsd-signature-type">DiffImagesArguments</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interfaces/diffresult.html" class="tsd-signature-type">DiffResult</a></li>
+						<li class="tsd-signature tsd-kind-icon">diff<wbr>Images<span class="tsd-signature-symbol">(</span>image1<span class="tsd-signature-symbol">: </span><a href="interfaces/diffimage.html" class="tsd-signature-type">DiffImage</a>, image2<span class="tsd-signature-symbol">: </span><a href="interfaces/diffimage.html" class="tsd-signature-type">DiffImage</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interfaces/diffresult.html" class="tsd-signature-type">DiffResult</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Prior99/native-image-diff/blob/72a3982/src/diff-images.ts#L121">diff-images.ts:121</a></li>
+									<li>Defined in <a href="https://github.com/Prior99/native-image-diff/blob/6f60ac7/src/diff-images.ts#L116">diff-images.ts:116</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -130,24 +131,30 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-type">object</span></h5>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter">
-											<h5>check<wbr>For<wbr>Antialiasing<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
-										</li>
-										<li class="tsd-parameter">
-											<h5>color<wbr>Threshold<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
-										</li>
-										<li class="tsd-parameter">
-											<h5>generate<wbr>Diff<wbr>Image<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
-										</li>
-										<li class="tsd-parameter">
-											<h5>image1<span class="tsd-signature-symbol">: </span><a href="interfaces/diffimage.html" class="tsd-signature-type">DiffImage</a></h5>
-										</li>
-										<li class="tsd-parameter">
-											<h5>image2<span class="tsd-signature-symbol">: </span><a href="interfaces/diffimage.html" class="tsd-signature-type">DiffImage</a></h5>
-										</li>
-									</ul>
+									<h5>args: <a href="interfaces/diffimagesarguments.html" class="tsd-signature-type">DiffImagesArguments</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="interfaces/diffresult.html" class="tsd-signature-type">DiffResult</a></h4>
+							<p>The information about the difference between the two images.</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Prior99/native-image-diff/blob/6f60ac7/src/diff-images.ts#L117">diff-images.ts:117</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Compare two images and return the result including meta information and a diff image as a buffer.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>image1: <a href="interfaces/diffimage.html" class="tsd-signature-type">DiffImage</a></h5>
+								</li>
+								<li>
+									<h5>image2: <a href="interfaces/diffimage.html" class="tsd-signature-type">DiffImage</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="interfaces/diffresult.html" class="tsd-signature-type">DiffResult</a></h4>
@@ -165,7 +172,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Prior99/native-image-diff/blob/72a3982/src/diff-images.ts#L53">diff-images.ts:53</a></li>
+									<li>Defined in <a href="https://github.com/Prior99/native-image-diff/blob/6f60ac7/src/diff-images.ts#L53">diff-images.ts:53</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -197,7 +204,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Prior99/native-image-diff/blob/72a3982/src/diff-images.ts#L84">diff-images.ts:84</a></li>
+									<li>Defined in <a href="https://github.com/Prior99/native-image-diff/blob/6f60ac7/src/diff-images.ts#L84">diff-images.ts:84</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -229,13 +236,13 @@
 					<a name="isdiffimage" class="tsd-anchor"></a>
 					<h3>is<wbr>Diff<wbr>Image</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Diff<wbr>Image<span class="tsd-signature-symbol">(</span>image<span class="tsd-signature-symbol">: </span><a href="interfaces/diffimage.html" class="tsd-signature-type">DiffImage</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Diff<wbr>Image<span class="tsd-signature-symbol">(</span>image<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Prior99/native-image-diff/blob/72a3982/src/diff-images.ts#L65">diff-images.ts:65</a></li>
+									<li>Defined in <a href="https://github.com/Prior99/native-image-diff/blob/6f60ac7/src/diff-images.ts#L65">diff-images.ts:65</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -251,7 +258,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>image: <a href="interfaces/diffimage.html" class="tsd-signature-type">DiffImage</a></h5>
+									<h5>image: <span class="tsd-signature-type">any</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
