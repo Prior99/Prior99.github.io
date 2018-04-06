@@ -258,19 +258,19 @@
 				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { writePngFile } <span class="hljs-keyword">from</span> <span class="hljs-string">"node-libpng"</span>;
 
 <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">writeMyFile</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-comment">// Let's write a 100x60 pixel PNG file with no alpha channel.</span>
+    <span class="hljs-comment">// Let's write a 100x60 pixel PNG file.</span>
     <span class="hljs-keyword">const</span> imageData = Buffer.alloc(<span class="hljs-number">100</span> * <span class="hljs-number">60</span> * <span class="hljs-number">3</span>);
     <span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> Manipulate the image data somehow.</span>
     <span class="hljs-keyword">const</span> options = {
         width: <span class="hljs-number">100</span>,
-        height: <span class="hljs-number">60</span>,
-        alpha: <span class="hljs-literal">false</span>
+        height: <span class="hljs-number">60</span>
     };
     <span class="hljs-keyword">await</span> writePngFile(<span class="hljs-string">"path/to/image.png"</span>, imageData, options);
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"File successfully written."</span>);
 }
 </code></pre>
-				<p>In this example, a 100x60 pixel image with no alpha channel will be encoded and written to disk.</p>
+				<p>In this example, a 100x60 pixel image will be encoded and written to disk.
+				Based on the length of the buffer and the provided dimensions the presence of an alpha channel will be automatically calculated.</p>
 				<p>It is possible to omit either <code>width</code> or <code>height</code> from the options.</p>
 				<p>If an error occured while writing the file or encoding the buffer, the Promise which <code>writePngFile</code> returns will
 				reject with the error.</p>
@@ -279,13 +279,12 @@
 				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { writePngFile } <span class="hljs-keyword">from</span> <span class="hljs-string">"node-libpng"</span>;
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">writeMyFile</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-comment">// Let's write a 100x60 pixel PNG file with no alpha channel.</span>
+    <span class="hljs-comment">// Let's write a 100x60 pixel PNG file.</span>
     <span class="hljs-keyword">const</span> imageData = Buffer.alloc(<span class="hljs-number">100</span> * <span class="hljs-number">60</span> * <span class="hljs-number">3</span>);
     <span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> Manipulate the image data somehow.</span>
     <span class="hljs-keyword">const</span> options = {
         width: <span class="hljs-number">100</span>,
-        height: <span class="hljs-number">60</span>,
-        alpha: <span class="hljs-literal">false</span>
+        height: <span class="hljs-number">60</span>
     };
     <span class="hljs-keyword">await</span> writePngFile(<span class="hljs-string">"path/to/image.png"</span>, imageData, options, <span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
         <span class="hljs-keyword">if</span> (error !== <span class="hljs-literal">null</span>) {
@@ -295,7 +294,8 @@
     });
 }
 </code></pre>
-				<p>In this example, a 100x60 pixel image with no alpha channel will be encoded and written to disk.</p>
+				<p>In this example, a 100x60 pixel image will be encoded and written to disk.
+				Based on the length of the buffer and the provided dimensions the presence of an alpha channel will be automatically calculated.</p>
 				<p>It is possible to omit either <code>width</code> or <code>height</code> from the options.</p>
 				<p>If an error occured while writing the file or encoding the buffer, it will be passed as the first and only argument
 				in the callback. Otherwise <code>null</code> will be passed.</p>
@@ -304,19 +304,19 @@
 				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { writePngFileSync } <span class="hljs-keyword">from</span> <span class="hljs-string">"node-libpng"</span>;
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">writeMyFile</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-comment">// Let's write a 100x60 pixel PNG file with no alpha channel.</span>
+    <span class="hljs-comment">// Let's write a 100x60 pixel PNG file.</span>
     <span class="hljs-keyword">const</span> imageData = Buffer.alloc(<span class="hljs-number">100</span> * <span class="hljs-number">60</span> * <span class="hljs-number">3</span>);
     <span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> Manipulate the image data somehow.</span>
     <span class="hljs-keyword">const</span> options = {
         width: <span class="hljs-number">100</span>,
-        height: <span class="hljs-number">60</span>,
-        alpha: <span class="hljs-literal">false</span>
+        height: <span class="hljs-number">60</span>
     };
     writePngFileSync(<span class="hljs-string">"path/to/image.png"</span>, imageData, options);
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"File successfully written."</span>);
 }
 </code></pre>
-				<p>In this example, a 100x60 pixel image with no alpha channel will be encoded and written to disk.</p>
+				<p>In this example, a 100x60 pixel image will be encoded and written to disk.
+				Based on the length of the buffer and the provided dimensions the presence of an alpha channel will be automatically calculated.</p>
 				<p>It is possible to omit either <code>width</code> or <code>height</code> from the options.</p>
 				<p>If an error occured while writing the file or encoding the buffer, it will be <code>throw</code>n.</p>
 				<h4 id="encoding-into-a-buffer">Encoding into a Buffer</h4>
@@ -327,15 +327,15 @@
     <span class="hljs-keyword">const</span> buffer = ...; <span class="hljs-comment">// Some buffer containing the raw pixel data.</span>
     <span class="hljs-keyword">const</span> options = {
         width: <span class="hljs-number">100</span>,
-        height: <span class="hljs-number">100</span>,
-        alpha: <span class="hljs-literal">false</span>
+        height: <span class="hljs-number">100</span>
     };
     <span class="hljs-keyword">const</span> encodedPngData = encode(buffer);
     <span class="hljs-comment">// The Buffer `encodedPngData` now contains the raw PNG-encoded data.</span>
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"File successfully encoded."</span>);
 }
 </code></pre>
-				<p>If an error occured while encoding the buffer, it will be <code>throw</code>n.
+				<p>Based on the length of the buffer and the provided dimensions the presence of an alpha channel will be automatically calculated.
+					If an error occured while encoding the buffer, it will be <code>throw</code>n.
 				The encoding happens synchroneously.</p>
 				<h3 id="accessing-the-pixels">Accessing the pixels</h3>
 				<p>PNG specifies five different types of colors:</p>
