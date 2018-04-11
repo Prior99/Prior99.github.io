@@ -1,8 +1,16 @@
-default: native-image-diff hyrest node-libpng test-decorators
+default: jest-screenshot native-image-diff hyrest node-libpng test-decorators
 
 .PHONY: submodules
 submodules:
 	git submodule update --init --recursive --remote
+
+.PHONY: jest-screenshot
+jest-screenshot: submodules
+	make -C repositories/jest-screenshot/ docs
+	rm -rf jest-screenshot/docs
+	cp -r repositories/jest-screenshot/docs jest-screenshot/docs
+	git add jest-screenshot
+	git commit -m "Update documentation for jest-screenshot"
 
 .PHONY: native-image-diff
 native-image-diff: submodules
