@@ -1,0 +1,314 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>jest-screenshot</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">jest-screenshot</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> jest-screenshot</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<h1 id="jest-screenshot">jest-screenshot</h1>
+				<p><a href="https://www.npmjs.com/package/jest-screenshot"><img src="https://img.shields.io/npm/v/jest-screenshot.svg" alt="npm"></a>
+					<a href="https://travis-ci.org/Prior99/jest-screenshot"><img src="https://travis-ci.org/Prior99/jest-screenshot.svg?branch=master" alt="Build Status"></a>
+				<a href="https://coveralls.io/github/Prior99/jest-screenshot?branch=master"><img src="https://coveralls.io/repos/github/Prior99/jest-screenshot/badge.svg?branch=master" alt="Coverage Status"></a></p>
+				<p>A jest extension to deal with screenshots and all sorts of images. Inspired by the awesome <a href="https://github.com/americanexpress/jest-image-snapshot">jest-image-snapshot</a> and
+					providing a mostly compatible API with similar features. By utilizing <a href="https://github.com/Prior99/native-image-diff">native-image-diff</a> instead of <a href="https://github.com/mapbox/pixelmatch">pixelmatch</a>
+				and <a href="https://github.com/Prior99/node-libpng">node-libpng</a> instead of <a href="https://github.com/lukeapage/pngjs">pngjs</a> the tests will run much faster than its competitor.</p>
+				<p>Please also refer to the <strong><a href="https://prior99.github.io/jest-screenshot/docs/index.html">Documentation</a></strong>.</p>
+				<h2 id="table-of-contents">Table of contents</h2>
+				<ul>
+					<li><a href="#jest-screenshot">jest-screenshot</a><ul>
+							<li><a href="#table-of-contents">Table of contents</a></li>
+							<li><a href="#usage">Usage</a><ul>
+									<li><a href="#configuring">Configuring</a></li>
+								</ul>
+							</li>
+							<li><a href="#contributing">Contributing</a></li>
+							<li><a href="#contributors">Contributors</a></li>
+						</ul>
+					</li>
+				</ul>
+				<h2 id="usage">Usage</h2>
+				<p>Integrate this plugin by using jest&#39;s <code>expect.extend</code>:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { jestScreenshot } <span class="hljs-keyword">from</span> <span class="hljs-string">"jest-screenshot"</span>;
+
+expect.extend(jestScreenshot());
+</code></pre>
+				<p>Take a look at <a href="example/">the example project</a>.</p>
+				<p>Afterwards, it can be used to compare images with snapshots:</p>
+				<pre><code class="lang-typescript">describe(<span class="hljs-string">"My fancy image"</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    <span class="hljs-keyword">const</span> myFancyImage = readFileSync(<span class="hljs-string">"../my-fancy-image.png"</span>);
+
+    it(<span class="hljs-string">"looks as beautiful as always"</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+        expect(myFancyImage).toMatchImageSnapshot();
+    });
+});
+</code></pre>
+				<p>This is for example useful for integration tests with <a href="https://github.com/GoogleChrome/puppeteer">puppeteer</a>:</p>
+				<pre><code class="lang-typescript">describe(<span class="hljs-string">"My fancy webpage"</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    <span class="hljs-keyword">const</span> page = ...; <span class="hljs-comment">// Setup puppeteer.</span>
+
+    it(<span class="hljs-string">"looks as gorgeous as ever"</span>, <span class="hljs-keyword">async</span> () =&gt; {
+        expect(<span class="hljs-keyword">await</span> page.screenshot()).toMatchImageSnapshot();
+    });
+});
+</code></pre>
+				<h3 id="configuring">Configuring</h3>
+				<p><code>jestScreenshot()</code> takes <a href="https://prior99.github.io/jest-screenshot/docs/interfaces/tomatchimagesnapshotconfiguration.html">an optional first argument</a> with an object to configure it:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Parameter</th>
+							<th>type</th>
+							<th>default</th>
+							<th>Optional</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><code>detectAntialiasing</code></td>
+							<td>boolean</td>
+							<td><code>true</code></td>
+							<td>✓</td>
+							<td>Whether to attempt to detect antialiasing and ignore related changes when comparing both images. <a href="https://prior99.github.io/native-image-diff/docs/interfaces/diffimagesarguments.html#detectantialiasing">See documentation</a>.</td>
+						</tr>
+						<tr>
+							<td><code>colorThreshold</code></td>
+							<td>number</td>
+							<td><code>0.1</code></td>
+							<td>✓</td>
+							<td>A number in the range from <code>0</code> to <code>1</code> describing how sensitive the comparison of two pixels should be. <a href="https://prior99.github.io/native-image-diff/docs/interfaces/diffimagesarguments.html#colorthreshold">See documentation</a>.</td>
+						</tr>
+						<tr>
+							<td><code>pixelThresholdAbsolute</code></td>
+							<td>number</td>
+							<td><code>undefined</code></td>
+							<td>✓</td>
+							<td>If specified, <strong>jest-screenshot</strong> will fail if more than the specified pixels are different from the snapshot.</td>
+						</tr>
+						<tr>
+							<td><code>pixelThresholdRelative</code></td>
+							<td>number</td>
+							<td><code>0</code></td>
+							<td>✓</td>
+							<td>If specified, <strong>jest-screenshot</strong> will fail if more than the specified relative amount of pixels are different from the snapshot. When setting this to <code>0.5</code> for example, more than 50% of the pixels need to be different for the test to fail.</td>
+						</tr>
+						<tr>
+							<td><code>identifier</code></td>
+							<td>function</td>
+							<td></td>
+							<td>✓</td>
+							<td>A function with the following signature: <code>(testPath: string, testName: string, counter: number) =&gt; string</code> which generates the filename for the snapshot. The filename needs to be unique. A sane default generator is implemented.</td>
+						</tr>
+						<tr>
+							<td><code>snapshotsDir</code></td>
+							<td>string</td>
+							<td><code>__snapshots__</code></td>
+							<td>✓</td>
+							<td>If specified, will change the directory into which the snapshot images will be stored. Together with <code>identifier</code> this defines the absolute path to the file.</td>
+						</tr>
+					</tbody>
+				</table>
+				<h4 id="example">Example</h4>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { jestScreenshot } <span class="hljs-keyword">from</span> <span class="hljs-string">"jest-screenshot"</span>;
+
+expect.extend(jestScreenshot({
+    detectAntialiasing: <span class="hljs-literal">false</span>,
+    colorThreshold: <span class="hljs-number">0</span>,
+    pixelThresholdAbsolute: <span class="hljs-number">150</span>, <span class="hljs-comment">// Fail if more than 150 pixels in total changed.</span>
+    pixelThresholdRelative: <span class="hljs-number">0.5</span> <span class="hljs-comment">// Fail if more than 50% of the pixels changed.</span>
+}));
+</code></pre>
+				<p>If neither <code>pixelThresholdAbsolute</code> nor <code>pixelThresholdRelative</code> are specified, <code>pixelThresholdRelative</code> will be set to <code>0</code>.
+				Both can be specified together in order to make the test fail on both conditions.</p>
+				<h2 id="contributing">Contributing</h2>
+				<p>Yarn is used instead of npm, so make sure it is installed. <code>npm install -g yarn</code>.</p>
+				<p>Generally, it should be enough to just run:</p>
+				<pre><code><span class="hljs-attribute">make</span>
+</code></pre><p>which will install all node dependencies, compile typescript, execute all test,
+				lint the sources and build the docs.</p>
+				<h2 id="contributors">Contributors</h2>
+				<ul>
+					<li>Frederick Gnodtke</li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module tsd-is-not-exported">
+						<a href="modules/__global.html">__global</a>
+					</li>
+					<li class=" tsd-kind-module tsd-parent-kind-module tsd-is-not-exported">
+						<a href="modules/__global.jest.html">__global.jest</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jesttestconfiguration.html" class="tsd-kind-icon">Jest<wbr>Test<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/matcherresult.html" class="tsd-kind-icon">Matcher<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/snapshotstate.html" class="tsd-kind-icon">Snapshot<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/tomatchimagesnapshotconfiguration.html" class="tsd-kind-icon">To<wbr>Match<wbr>Image<wbr>Snapshot<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#tomatchimagesnapshot" class="tsd-kind-icon">to<wbr>Match<wbr>Image<wbr>Snapshot</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#checkimages" class="tsd-kind-icon">check<wbr>Images</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getsnapshotfilename" class="tsd-kind-icon">get<wbr>Snapshot<wbr>File<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getsnapshotpath" class="tsd-kind-icon">get<wbr>Snapshot<wbr>Path</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#isjesttestconfiguration" class="tsd-kind-icon">is<wbr>Jest<wbr>Test<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#issnapshotstate" class="tsd-kind-icon">is<wbr>Snapshot<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#jestscreenshot" class="tsd-kind-icon">jest<wbr>Screenshot</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

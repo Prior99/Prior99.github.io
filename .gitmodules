@@ -10,3 +10,6 @@
 [submodule "repositories/native-image-diff"]
 	path = repositories/native-image-diff
 	url = https://github.com/Prior99/native-image-diff.git
+[submodule "repositories/jest-screenshot"]
+	path = repositories/jest-screenshot
+	url = https://github.com/Prior99/jest-screenshot
