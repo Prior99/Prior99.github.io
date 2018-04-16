@@ -1,10 +1,3 @@
-.snapshot_test-message_32rOe code {
-  padding: 0;
-  background: none !important;
-  color: inherit;
-  font-size: 1em;
-}
-
 .image-diff-viewer_viewer-container_iZVeA {
   position: relative;
   border: 1px solid grey;
@@ -88,6 +81,13 @@
 
 .image-diff-viewer_viewer-container_iZVeA .image-diff-viewer_settings_2U7hh {
   border-bottom: 5px;
+}
+
+.snapshot_test-message_32rOe code {
+  padding: 0;
+  background: none !important;
+  color: inherit;
+  font-size: 1em;
 }
 
 .navigation_brand_24nfP {
