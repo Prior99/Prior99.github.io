@@ -7,8 +7,11 @@ submodules:
 .PHONY: jest-screenshot
 jest-screenshot: submodules
 	make -C repositories/jest-screenshot/ docs
+	make -C repositories/jest-screenshot/example/ || true
 	rm -rf jest-screenshot/docs
+	rm -rf jest-screenshot/report-demo
 	cp -r repositories/jest-screenshot/docs jest-screenshot/docs
+	cp -r repositories/jest-screenshot/example/jest-screenshot-report jest-screenshot/report-demo
 	git add jest-screenshot
 	git commit -m "Update documentation for jest-screenshot"
 
