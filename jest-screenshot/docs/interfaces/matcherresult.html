@@ -71,6 +71,11 @@
 				<ul class="tsd-hierarchy">
 					<li>
 						<span class="target">MatcherResult</span>
+						<ul class="tsd-hierarchy">
+							<li>
+								<a href="imagematcherresult.html" class="tsd-signature-type">ImageMatcherResult</a>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</section>
@@ -81,6 +86,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="matcherresult.html#actual" class="tsd-kind-icon">actual</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="matcherresult.html#expected" class="tsd-kind-icon">expected</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="matcherresult.html#pass" class="tsd-kind-icon">pass</a></li>
 							</ul>
 						</section>
@@ -96,12 +103,32 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="actual" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> actual</h3>
+					<div class="tsd-signature tsd-kind-icon">actual<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Prior99/jest-screenshot/blob/2cd1bc8/src/jest.ts#L18">jest.ts:18</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="expected" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> expected</h3>
+					<div class="tsd-signature tsd-kind-icon">expected<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Prior99/jest-screenshot/blob/2cd1bc8/src/jest.ts#L19">jest.ts:19</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="pass" class="tsd-anchor"></a>
 					<h3>pass</h3>
 					<div class="tsd-signature tsd-kind-icon">pass<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Prior99/jest-screenshot/blob/8f906b1/src/jest.ts#L17">jest.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/Prior99/jest-screenshot/blob/2cd1bc8/src/jest.ts#L17">jest.ts:17</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -118,7 +145,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Prior99/jest-screenshot/blob/8f906b1/src/jest.ts#L16">jest.ts:16</a></li>
+									<li>Defined in <a href="https://github.com/Prior99/jest-screenshot/blob/2cd1bc8/src/jest.ts#L16">jest.ts:16</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -138,6 +165,21 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-interface">
+						<a href="failedsnapshotinfo.html" class="tsd-kind-icon">Failed<wbr>Snapshot<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="failedtest.html" class="tsd-kind-icon">Failed<wbr>Test</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="filereport.html" class="tsd-kind-icon">File<wbr>Report</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="imagematcherresult.html" class="tsd-kind-icon">Image<wbr>Matcher<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="jestscreenshotconfiguration.html" class="tsd-kind-icon">Jest<wbr>Screenshot<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="jesttestconfiguration.html" class="tsd-kind-icon">Jest<wbr>Test<wbr>Configuration</a>
 					</li>
 				</ul>
@@ -145,6 +187,12 @@
 					<li class="current tsd-kind-interface">
 						<a href="matcherresult.html" class="tsd-kind-icon">Matcher<wbr>Result</a>
 						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="matcherresult.html#actual" class="tsd-kind-icon">actual</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="matcherresult.html#expected" class="tsd-kind-icon">expected</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="matcherresult.html#pass" class="tsd-kind-icon">pass</a>
 							</li>
@@ -156,16 +204,58 @@
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-interface">
-						<a href="snapshotstate.html" class="tsd-kind-icon">Snapshot<wbr>State</a>
+						<a href="reportmetadata.html" class="tsd-kind-icon">Report<wbr>Metadata</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="tomatchimagesnapshotconfiguration.html" class="tsd-kind-icon">To<wbr>Match<wbr>Image<wbr>Snapshot<wbr>Configuration</a>
+						<a href="snapshotstate.html" class="tsd-kind-icon">Snapshot<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#identifiergenerator" class="tsd-kind-icon">Identifier<wbr>Generator</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#reportpathgenerator" class="tsd-kind-icon">Report<wbr>Path<wbr>Generator</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="../globals.html#checksumlength" class="tsd-kind-icon">checksum<wbr>Length</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="../globals.html#maxfilenamelength" class="tsd-kind-icon">max<wbr>Filename<wbr>Length</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="../globals.html#maxtestfilenamelength" class="tsd-kind-icon">max<wbr>Test<wbr>Filename<wbr>Length</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="../globals.html#reportdir" class="tsd-kind-icon">report<wbr>Dir</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="../globals.html#reportdirname" class="tsd-kind-icon">report<wbr>Dir<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="../globals.html#reportsdir" class="tsd-kind-icon">reports<wbr>Dir</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="../globals.html#suffix" class="tsd-kind-icon">suffix</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="../globals.html#tomatchimagesnapshot" class="tsd-kind-icon">to<wbr>Match<wbr>Image<wbr>Snapshot</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-not-exported">
 						<a href="../globals.html#checkimages" class="tsd-kind-icon">check<wbr>Images</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../globals.html#config" class="tsd-kind-icon">config</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="../globals.html#getfileconfig" class="tsd-kind-icon">get<wbr>File<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="../globals.html#getpackageconfig" class="tsd-kind-icon">get<wbr>Package<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../globals.html#getreportdir" class="tsd-kind-icon">get<wbr>Report<wbr>Dir</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../globals.html#getreportpath" class="tsd-kind-icon">get<wbr>Report<wbr>Path</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="../globals.html#getsnapshotfilename" class="tsd-kind-icon">get<wbr>Snapshot<wbr>File<wbr>Name</a>
@@ -180,7 +270,10 @@
 						<a href="../globals.html#issnapshotstate" class="tsd-kind-icon">is<wbr>Snapshot<wbr>State</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="../globals.html#jestscreenshot" class="tsd-kind-icon">jest<wbr>Screenshot</a>
+						<a href="../globals.html#setupjestscreenshot" class="tsd-kind-icon">setup<wbr>Jest<wbr>Screenshot</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="../globals.html#template" class="tsd-kind-icon">template</a>
 					</li>
 				</ul>
 			</nav>

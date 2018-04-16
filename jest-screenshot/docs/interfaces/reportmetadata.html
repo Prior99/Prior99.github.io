@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>JestTestConfiguration | jest-screenshot</title>
+	<title>ReportMetadata | jest-screenshot</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="jesttestconfiguration.html">JestTestConfiguration</a>
+					<a href="reportmetadata.html">ReportMetadata</a>
 				</li>
 			</ul>
-			<h1>Interface JestTestConfiguration</h1>
+			<h1>Interface ReportMetadata</h1>
 		</div>
 	</div>
 </header>
@@ -70,7 +70,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">JestTestConfiguration</span>
+						<span class="target">ReportMetadata</span>
 					</li>
 				</ul>
 			</section>
@@ -81,10 +81,7 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="jesttestconfiguration.html#currenttestname" class="tsd-kind-icon">current<wbr>Test<wbr>Name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="jesttestconfiguration.html#isnot" class="tsd-kind-icon">is<wbr>Not</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="jesttestconfiguration.html#snapshotstate" class="tsd-kind-icon">snapshot<wbr>State</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="jesttestconfiguration.html#testpath" class="tsd-kind-icon">test<wbr>Path</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="reportmetadata.html#files" class="tsd-kind-icon">files</a></li>
 							</ul>
 						</section>
 					</div>
@@ -93,42 +90,12 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="currenttestname" class="tsd-anchor"></a>
-					<h3>current<wbr>Test<wbr>Name</h3>
-					<div class="tsd-signature tsd-kind-icon">current<wbr>Test<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="files" class="tsd-anchor"></a>
+					<h3>files</h3>
+					<div class="tsd-signature tsd-kind-icon">files<span class="tsd-signature-symbol">:</span> <a href="filereport.html" class="tsd-signature-type">FileReport</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Prior99/jest-screenshot/blob/2cd1bc8/src/jest.ts#L11">jest.ts:11</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="isnot" class="tsd-anchor"></a>
-					<h3>is<wbr>Not</h3>
-					<div class="tsd-signature tsd-kind-icon">is<wbr>Not<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Prior99/jest-screenshot/blob/2cd1bc8/src/jest.ts#L12">jest.ts:12</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="snapshotstate" class="tsd-anchor"></a>
-					<h3>snapshot<wbr>State</h3>
-					<div class="tsd-signature tsd-kind-icon">snapshot<wbr>State<span class="tsd-signature-symbol">:</span> <a href="snapshotstate.html" class="tsd-signature-type">SnapshotState</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Prior99/jest-screenshot/blob/2cd1bc8/src/jest.ts#L9">jest.ts:9</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="testpath" class="tsd-anchor"></a>
-					<h3>test<wbr>Path</h3>
-					<div class="tsd-signature tsd-kind-icon">test<wbr>Path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Prior99/jest-screenshot/blob/2cd1bc8/src/jest.ts#L10">jest.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/Prior99/jest-screenshot/blob/2cd1bc8/src/reporter-types.ts#L14">reporter-types.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -159,33 +126,24 @@
 					<li class=" tsd-kind-interface">
 						<a href="jestscreenshotconfiguration.html" class="tsd-kind-icon">Jest<wbr>Screenshot<wbr>Configuration</a>
 					</li>
+					<li class=" tsd-kind-interface">
+						<a href="jesttestconfiguration.html" class="tsd-kind-icon">Jest<wbr>Test<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="matcherresult.html" class="tsd-kind-icon">Matcher<wbr>Result</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="jesttestconfiguration.html" class="tsd-kind-icon">Jest<wbr>Test<wbr>Configuration</a>
+						<a href="reportmetadata.html" class="tsd-kind-icon">Report<wbr>Metadata</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="jesttestconfiguration.html#currenttestname" class="tsd-kind-icon">current<wbr>Test<wbr>Name</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="jesttestconfiguration.html#isnot" class="tsd-kind-icon">is<wbr>Not</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="jesttestconfiguration.html#snapshotstate" class="tsd-kind-icon">snapshot<wbr>State</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="jesttestconfiguration.html#testpath" class="tsd-kind-icon">test<wbr>Path</a>
+								<a href="reportmetadata.html#files" class="tsd-kind-icon">files</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface">
-						<a href="matcherresult.html" class="tsd-kind-icon">Matcher<wbr>Result</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="reportmetadata.html" class="tsd-kind-icon">Report<wbr>Metadata</a>
-					</li>
 					<li class=" tsd-kind-interface">
 						<a href="snapshotstate.html" class="tsd-kind-icon">Snapshot<wbr>State</a>
 					</li>

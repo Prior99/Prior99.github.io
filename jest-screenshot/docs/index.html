@@ -76,21 +76,118 @@
 				<ul>
 					<li><a href="#jest-screenshot">jest-screenshot</a><ul>
 							<li><a href="#table-of-contents">Table of contents</a></li>
-							<li><a href="#usage">Usage</a><ul>
-									<li><a href="#configuring">Configuring</a></li>
+							<li><a href="#installation">Installation</a><ul>
+									<li><a href="#installing-the-expect-extension">Installing the expect extension</a></li>
+									<li><a href="#installing-the-reporter">Installing the reporter</a></li>
+									<li><a href="#configuring">Configuring</a><ul>
+											<li><a href="#example">Example</a></li>
+										</ul>
+									</li>
 								</ul>
 							</li>
+							<li><a href="#usage">Usage</a></li>
+							<li><a href="#reports">Reports</a></li>
 							<li><a href="#contributing">Contributing</a></li>
 							<li><a href="#contributors">Contributors</a></li>
 						</ul>
 					</li>
 				</ul>
-				<h2 id="usage">Usage</h2>
-				<p>Integrate this plugin by using jest&#39;s <code>expect.extend</code>:</p>
-				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { jestScreenshot } <span class="hljs-keyword">from</span> <span class="hljs-string">"jest-screenshot"</span>;
+				<h2 id="installation">Installation</h2>
+				<p>Two steps are necessary in order to use this plugin:</p>
+				<ol>
+					<li>Install the <code>expect().toMatchImageSnapshot()</code> extension. (<a href="#installing-the-expect-extension">Here</a>)</li>
+					<li>Install the reporter. (<a href="#installing-the-reporter">Here</a>)</li>
+				</ol>
+				<h3 id="installing-the-expect-extension">Installing the expect extension</h3>
+				<p>Integrate this plugin by calling <code>setupJestScreenshot</code> in the framework setup file:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { setupJestScreenshot } <span class="hljs-keyword">from</span> <span class="hljs-string">"jest-screenshot"</span>;
 
-expect.extend(jestScreenshot());
+setupJestScreenshot();
 </code></pre>
+				<p>Store the above code in a <code>setup-framework.js</code> file and specify it when configuring Jest:</p>
+				<pre><code class="lang-json">"jest": {
+
+    "setupTestFrameworkScriptFile": "&lt;rootDir&gt;/setup-framework.js"
+
+}
+</code></pre>
+				<h3 id="installing-the-reporter">Installing the reporter</h3>
+				<p>In order to generate the report, the reporter must be registered in the Jest configuration:</p>
+				<pre><code class="lang-json">&quot;jest&quot;: {
+
+    &quot;reporters&quot;: [
+        &quot;default&quot;,
+        &quot;jest-screenshot/reporter&quot;
+    ]
+
+}
+</code></pre>
+				<h3 id="configuring">Configuring</h3>
+				<p>By placing a file <strong>jest-screenshot.json</strong> in the root directory of your project with a <a href="https://prior99.github.io/jest-screenshot/docs/interfaces/jestscreenshotconfiguration.html">configuration object</a>
+				you can configure it:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Parameter</th>
+							<th>type</th>
+							<th>default</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><code>detectAntialiasing</code></td>
+							<td>boolean</td>
+							<td><code>true</code></td>
+							<td>Whether to attempt to detect antialiasing and ignore related changes when comparing both images. <a href="https://prior99.github.io/native-image-diff/docs/interfaces/diffimagesarguments.html#detectantialiasing">See documentation</a>.</td>
+						</tr>
+						<tr>
+							<td><code>colorThreshold</code></td>
+							<td>number</td>
+							<td><code>0.1</code></td>
+							<td>A number in the range from <code>0</code> to <code>1</code> describing how sensitive the comparison of two pixels should be. <a href="https://prior99.github.io/native-image-diff/docs/interfaces/diffimagesarguments.html#colorthreshold">See documentation</a>.</td>
+						</tr>
+						<tr>
+							<td><code>pixelThresholdAbsolute</code></td>
+							<td>number</td>
+							<td><code>undefined</code></td>
+							<td>If specified, <strong>jest-screenshot</strong> will fail if more than the specified pixels are different from the snapshot.</td>
+						</tr>
+						<tr>
+							<td><code>pixelThresholdRelative</code></td>
+							<td>number</td>
+							<td><code>0</code></td>
+							<td>If specified, <strong>jest-screenshot</strong> will fail if more than the specified relative amount of pixels are different from the snapshot. When setting this to <code>0.5</code> for example, more than 50% of the pixels need to be different for the test to fail.</td>
+						</tr>
+						<tr>
+							<td><code>snapshotsDir</code></td>
+							<td>string</td>
+							<td><code>__snapshots__</code></td>
+							<td>If specified, will change the directory into which the snapshot images will be stored, relative to the unit test file.</td>
+						</tr>
+						<tr>
+							<td><code>reportDir</code></td>
+							<td>string</td>
+							<td><code>jest-screenshot-report</code></td>
+							<td>If specified, will change the directory into which the HTML report will be written, relative to the project&#39;s root directory.</td>
+						</tr>
+					</tbody>
+				</table>
+				<p>It&#39;s also possible to specify a key <code>jestScreenshot</code> in the <strong>package.json</strong> with the same interface.</p>
+				<p>All configuration options are optional.</p>
+				<p>If neither <code>pixelThresholdAbsolute</code> nor <code>pixelThresholdRelative</code> are specified, <code>pixelThresholdRelative</code> will be set to <code>0</code>.
+				Both can be specified together in order to make the test fail on both conditions.</p>
+				<h4 id="example">Example</h4>
+				<pre><code class="lang-json">{
+    &quot;detectAntialiasing&quot;: false,
+    &quot;colorThreshold&quot;: 0,
+    &quot;pixelThresholdAbsolute&quot;: 150,
+    &quot;pixelThresholdRelative&quot;: 0.5
+};
+</code></pre>
+				<p>The above config will make the tests fail if more than 150 pixels in total changed or more than 50% of the pixels changed.
+				It will detect any pixel as changed even if the color only differs minimally and antialiasing detection is disabled.</p>
+				<h2 id="usage">Usage</h2>
 				<p>Take a look at <a href="example/">the example project</a>.</p>
 				<p>Afterwards, it can be used to compare images with snapshots:</p>
 				<pre><code class="lang-typescript">describe(<span class="hljs-string">"My fancy image"</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
@@ -110,75 +207,14 @@ expect.extend(jestScreenshot());
     });
 });
 </code></pre>
-				<h3 id="configuring">Configuring</h3>
-				<p><code>jestScreenshot()</code> takes <a href="https://prior99.github.io/jest-screenshot/docs/interfaces/tomatchimagesnapshotconfiguration.html">an optional first argument</a> with an object to configure it:</p>
-				<table>
-					<thead>
-						<tr>
-							<th>Parameter</th>
-							<th>type</th>
-							<th>default</th>
-							<th>Optional</th>
-							<th>Description</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td><code>detectAntialiasing</code></td>
-							<td>boolean</td>
-							<td><code>true</code></td>
-							<td>✓</td>
-							<td>Whether to attempt to detect antialiasing and ignore related changes when comparing both images. <a href="https://prior99.github.io/native-image-diff/docs/interfaces/diffimagesarguments.html#detectantialiasing">See documentation</a>.</td>
-						</tr>
-						<tr>
-							<td><code>colorThreshold</code></td>
-							<td>number</td>
-							<td><code>0.1</code></td>
-							<td>✓</td>
-							<td>A number in the range from <code>0</code> to <code>1</code> describing how sensitive the comparison of two pixels should be. <a href="https://prior99.github.io/native-image-diff/docs/interfaces/diffimagesarguments.html#colorthreshold">See documentation</a>.</td>
-						</tr>
-						<tr>
-							<td><code>pixelThresholdAbsolute</code></td>
-							<td>number</td>
-							<td><code>undefined</code></td>
-							<td>✓</td>
-							<td>If specified, <strong>jest-screenshot</strong> will fail if more than the specified pixels are different from the snapshot.</td>
-						</tr>
-						<tr>
-							<td><code>pixelThresholdRelative</code></td>
-							<td>number</td>
-							<td><code>0</code></td>
-							<td>✓</td>
-							<td>If specified, <strong>jest-screenshot</strong> will fail if more than the specified relative amount of pixels are different from the snapshot. When setting this to <code>0.5</code> for example, more than 50% of the pixels need to be different for the test to fail.</td>
-						</tr>
-						<tr>
-							<td><code>identifier</code></td>
-							<td>function</td>
-							<td></td>
-							<td>✓</td>
-							<td>A function with the following signature: <code>(testPath: string, testName: string, counter: number) =&gt; string</code> which generates the filename for the snapshot. The filename needs to be unique. A sane default generator is implemented.</td>
-						</tr>
-						<tr>
-							<td><code>snapshotsDir</code></td>
-							<td>string</td>
-							<td><code>__snapshots__</code></td>
-							<td>✓</td>
-							<td>If specified, will change the directory into which the snapshot images will be stored. Together with <code>identifier</code> this defines the absolute path to the file.</td>
-						</tr>
-					</tbody>
-				</table>
-				<h4 id="example">Example</h4>
-				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { jestScreenshot } <span class="hljs-keyword">from</span> <span class="hljs-string">"jest-screenshot"</span>;
-
-expect.extend(jestScreenshot({
-    detectAntialiasing: <span class="hljs-literal">false</span>,
-    colorThreshold: <span class="hljs-number">0</span>,
-    pixelThresholdAbsolute: <span class="hljs-number">150</span>, <span class="hljs-comment">// Fail if more than 150 pixels in total changed.</span>
-    pixelThresholdRelative: <span class="hljs-number">0.5</span> <span class="hljs-comment">// Fail if more than 50% of the pixels changed.</span>
-}));
-</code></pre>
-				<p>If neither <code>pixelThresholdAbsolute</code> nor <code>pixelThresholdRelative</code> are specified, <code>pixelThresholdRelative</code> will be set to <code>0</code>.
-				Both can be specified together in order to make the test fail on both conditions.</p>
+				<h2 id="reports">Reports</h2>
+				<p>An HTML report with interactive tools for comparing the failed snapshots will be generated if any tests failed.</p>
+				<p><strong><a href="https://prior99.github.io/jest-screenshot/report-demo">A demo can be found here</a></strong></p>
+				<p>They might look for example like this:</p>
+				<p><img src="images/screenshot-report-side-by-side.png" alt="Example Side-by-side"></p>
+				<p><img src="images/screenshot-report-slider.png" alt="Example Slider"></p>
+				<p><img src="images/screenshot-report-blend.png" alt="Example Blend"></p>
+				<p>The report will be placed in a <code>jest-screenshot-report</code> directory in the project&#39;s root directory by default.</p>
 				<h2 id="contributing">Contributing</h2>
 				<p>Yarn is used instead of npm, so make sure it is installed. <code>npm install -g yarn</code>.</p>
 				<p>Generally, it should be enough to just run:</p>
@@ -208,22 +244,79 @@ expect.extend(jestScreenshot({
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-interface">
+						<a href="interfaces/failedsnapshotinfo.html" class="tsd-kind-icon">Failed<wbr>Snapshot<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/failedtest.html" class="tsd-kind-icon">Failed<wbr>Test</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filereport.html" class="tsd-kind-icon">File<wbr>Report</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagematcherresult.html" class="tsd-kind-icon">Image<wbr>Matcher<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jestscreenshotconfiguration.html" class="tsd-kind-icon">Jest<wbr>Screenshot<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/jesttestconfiguration.html" class="tsd-kind-icon">Jest<wbr>Test<wbr>Configuration</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/matcherresult.html" class="tsd-kind-icon">Matcher<wbr>Result</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/snapshotstate.html" class="tsd-kind-icon">Snapshot<wbr>State</a>
+						<a href="interfaces/reportmetadata.html" class="tsd-kind-icon">Report<wbr>Metadata</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/tomatchimagesnapshotconfiguration.html" class="tsd-kind-icon">To<wbr>Match<wbr>Image<wbr>Snapshot<wbr>Configuration</a>
+						<a href="interfaces/snapshotstate.html" class="tsd-kind-icon">Snapshot<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#identifiergenerator" class="tsd-kind-icon">Identifier<wbr>Generator</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reportpathgenerator" class="tsd-kind-icon">Report<wbr>Path<wbr>Generator</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#checksumlength" class="tsd-kind-icon">checksum<wbr>Length</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#maxfilenamelength" class="tsd-kind-icon">max<wbr>Filename<wbr>Length</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#maxtestfilenamelength" class="tsd-kind-icon">max<wbr>Test<wbr>Filename<wbr>Length</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#reportdir" class="tsd-kind-icon">report<wbr>Dir</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#reportdirname" class="tsd-kind-icon">report<wbr>Dir<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#reportsdir" class="tsd-kind-icon">reports<wbr>Dir</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#suffix" class="tsd-kind-icon">suffix</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#tomatchimagesnapshot" class="tsd-kind-icon">to<wbr>Match<wbr>Image<wbr>Snapshot</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-not-exported">
 						<a href="globals.html#checkimages" class="tsd-kind-icon">check<wbr>Images</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#config" class="tsd-kind-icon">config</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#getfileconfig" class="tsd-kind-icon">get<wbr>File<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#getpackageconfig" class="tsd-kind-icon">get<wbr>Package<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getreportdir" class="tsd-kind-icon">get<wbr>Report<wbr>Dir</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getreportpath" class="tsd-kind-icon">get<wbr>Report<wbr>Path</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#getsnapshotfilename" class="tsd-kind-icon">get<wbr>Snapshot<wbr>File<wbr>Name</a>
@@ -238,7 +331,10 @@ expect.extend(jestScreenshot({
 						<a href="globals.html#issnapshotstate" class="tsd-kind-icon">is<wbr>Snapshot<wbr>State</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#jestscreenshot" class="tsd-kind-icon">jest<wbr>Screenshot</a>
+						<a href="globals.html#setupjestscreenshot" class="tsd-kind-icon">setup<wbr>Jest<wbr>Screenshot</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#template" class="tsd-kind-icon">template</a>
 					</li>
 				</ul>
 			</nav>
